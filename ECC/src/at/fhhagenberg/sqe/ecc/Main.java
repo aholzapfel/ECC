@@ -1,4 +1,4 @@
-package sqelevator;
+package at.fhhagenberg.sqe.ecc;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
