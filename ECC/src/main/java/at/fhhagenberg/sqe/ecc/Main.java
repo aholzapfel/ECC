@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
 
@@ -18,7 +19,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			URL location = Main.class.getClassLoader().getResource("ElevatorControlCenter.fxml");
-			BorderPane root = (BorderPane) FXMLLoader.load(location);
+			Pane root = FXMLLoader.load(location);
 			
 			Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 			scene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
