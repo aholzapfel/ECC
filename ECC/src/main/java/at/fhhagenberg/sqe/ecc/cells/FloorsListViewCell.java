@@ -1,14 +1,13 @@
-package at.fhhagenberg.sqe.ecc;
+package at.fhhagenberg.sqe.ecc.cells;
 
-import java.net.URISyntaxException;
-
+import at.fhhagenberg.sqe.ecc.Floor;
+import at.fhhagenberg.sqe.ecc.Main;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -39,9 +38,9 @@ public class FloorsListViewCell extends ListCell<Floor> {
             // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
             Image img;
             if(floor.getUp()) {
-            	img = new Image(Main.class.getClassLoader().getResource("Direction_Up_Pressed.png").toString());
+            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_up_pressed.png").toString());
             } else {
-            	img = new Image(Main.class.getClassLoader().getResource("Direction_Up.png").toString());
+            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_up.png").toString());
             }
             ImageView up = new ImageView(img);
             up.setFitHeight(25);
@@ -50,9 +49,9 @@ public class FloorsListViewCell extends ListCell<Floor> {
             
             // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
             if(floor.getUp()) {
-            	img = new Image(Main.class.getClassLoader().getResource("Direction_Down_Pressed.png").toString());
+            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_down_pressed.png").toString());
             } else {
-            	img = new Image(Main.class.getClassLoader().getResource("Direction_Down.png").toString());
+            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_down.png").toString());
             }
             ImageView down = new ImageView(img);
             down.setFitHeight(25);

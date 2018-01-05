@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<GridPane 	xmlns:fx="http://javafx.com/fxml/1"
+			xmlns="http://javafx.com/javafx/8.0.40"
+			fx:controller="at.fhhagenberg.sqe.ecc.controller.ElevatorController">
+		
+	<columnConstraints>
+		<ColumnConstraints minWidth="150" maxWidth="150" /> 
+	</columnConstraints>
+		
+	<rowConstraints>
+        <RowConstraints percentHeight="50"/> 
+        <RowConstraints percentHeight="50"/>
+    </rowConstraints>
+	
+	<GridPane 	hgap="5" vgap="5"
+				GridPane.columnIndex="0" GridPane.rowIndex="0">
+				
+		<columnConstraints>
+			<ColumnConstraints percentWidth="50" />
+			<ColumnConstraints percentWidth="50" />
+		</columnConstraints>
+	
+		<fx:define>
+			<ToggleGroup fx:id="tgMode"/>  
+		</fx:define>
+		
+		<Label fx:id="lbHeader" text="${elevator.numProperty.value}" alignment="CENTER"
+				GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+		
+		<ToggleButton fx:id="tbModeAutomatic" text="Automatic" toggleGroup="$tgMode" 
+						GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+		<ToggleButton fx:id="tbModeManual" text="Manual" toggleGroup="$tgMode"
+						GridPane.columnIndex="1" GridPane.rowIndex="1" selected="true"/>
+						
+		<Spinner fx:id="spGoTo"
+					GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+		<Button fx:id="btGoTo" text="Go to"
+					GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+					
+		<Label text="Payload:" 
+				GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+		<Label fx:id="lbPayload" text="${elevator.payloadProperty.value}" 
+				GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+				
+		<Label text="Speed:" 
+				GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+		<Label fx:id="lbSpeed" text="${elevator.speedProperty.value}" 
+				GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+				
+		<Label text="Door:" 
+				GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+		<Label fx:id="lbDoor" text="${elevator.doorProperty.value}" 
+				GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+	</GridPane>
+				
+	<AnchorPane GridPane.columnIndex="0" GridPane.rowIndex="1">
+		<fx:include source="layouts\elevator_floors.fxml"
+					AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+   	</AnchorPane>
+</GridPane>
+

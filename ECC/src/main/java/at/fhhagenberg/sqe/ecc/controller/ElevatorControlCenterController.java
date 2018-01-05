@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import at.fhhagenberg.sqe.ecc.Floor;
-import at.fhhagenberg.sqe.ecc.FloorsListViewCell;
+import at.fhhagenberg.sqe.ecc.cells.ElevatorsListViewCell;
+import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorMock;
+import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -18,31 +20,34 @@ import javafx.util.Callback;
 
 public class ElevatorControlCenterController implements Initializable {
 	
-	@FXML
-    private ListView<Floor> floorsListView;
+    @FXML private ListView<Floor> floors;
+    @FXML private FloorsController floorsController;
+    
+	@FXML private ListView<IElevator> lvElevators;
 	
-	
-	protected List<Floor> floors = new ArrayList<>();
-	
-	protected ListProperty<Floor> listProperty = new SimpleListProperty<>();
+	protected List<IElevator> elevators = new ArrayList<>();
+	protected ListProperty<IElevator> listPropertyElevators = new SimpleListProperty<>();
 	
 	@Override
     public void initialize(URL url, ResourceBundle rb) {
-		floors.add(new Floor());
-		floors.add(new Floor());
-		floors.add(new Floor());
-		floors.add(new Floor());
-		floors.add(new Floor());
-
-        floorsListView.itemsProperty().bind(listProperty);
-        floorsListView.setCellFactory(new Callback<ListView<Floor>, ListCell<Floor>>() {
+		initElevators();
+	}
+	
+	private void initElevators() {
+		elevators.add(new ElevatorMock());
+		elevators.add(new ElevatorMock());
+		elevators.add(new ElevatorMock());
+		elevators.add(new ElevatorMock());
+		
+		lvElevators.itemsProperty().bind(listPropertyElevators);
+		lvElevators.setCellFactory(new Callback<ListView<IElevator>, ListCell<IElevator>>() {
 			
 			@Override
-			public ListCell<Floor> call(ListView<Floor> param) {
-				return new FloorsListViewCell();
+			public ListCell<IElevator> call(ListView<IElevator> param) {
+				return new ElevatorsListViewCell();
 			}
 		});
         
-        listProperty.set(FXCollections.observableArrayList(floors));
-    }
+		listPropertyElevators.set(FXCollections.observableArrayList(elevators));
+	}
 }
