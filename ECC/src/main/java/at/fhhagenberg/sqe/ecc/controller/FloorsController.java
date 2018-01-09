@@ -1,12 +1,14 @@
 package at.fhhagenberg.sqe.ecc.controller;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import at.fhhagenberg.sqe.ecc.Floor;
 import at.fhhagenberg.sqe.ecc.cells.FloorsListViewCell;
+import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorControlCenter;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -25,9 +27,15 @@ public class FloorsController implements Initializable {
 	
 	@Override
     public void initialize(URL url, ResourceBundle rb) {
-		floors.add(new Floor());
-		floors.add(new Floor());
-		floors.add(new Floor());
+		
+		try {
+			for(int i = 0; i < ElevatorControlCenter.getInstance().getFloorNum(); i++) {
+				floors.add(new Floor());
+			}
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		lvFloors.itemsProperty().bind(listPropertyFloors);
 		lvFloors.setCellFactory(new Callback<ListView<Floor>, ListCell<Floor>>() {
@@ -39,5 +47,9 @@ public class FloorsController implements Initializable {
 		});
         
 		listPropertyFloors.set(FXCollections.observableArrayList(floors));
+	}
+	
+	public void testController() {
+		System.out.println(floors.size());
 	}
 }

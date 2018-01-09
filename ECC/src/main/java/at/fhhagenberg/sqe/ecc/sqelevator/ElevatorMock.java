@@ -2,131 +2,60 @@ package at.fhhagenberg.sqe.ecc.sqelevator;
 
 import java.rmi.RemoteException;
 
-public class ElevatorMock implements IElevator {
+public class ElevatorMock {
 	
-	private static int elevatorCounter = 1;
+	private int targetFloor;
+	private int currentFloor;
+	private int weight;
+	private int speed;
+	private int doorStatus;
 	
-	private int num;
-	
-	public ElevatorMock() {
-		num = elevatorCounter++;
-	}
-	
-	@Override
-	public int getCommittedDirection(int elevatorNumber) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+	public ElevatorMock(int targetFloor, int currentFloor, int weight, int speed, int doorStatus) {
+		this.setTargetFloor(targetFloor);
+		this.setCurrentFloor(currentFloor);
+		this.setWeight(weight);
+		this.setSpeed(speed);
+		this.setDoorStatus(doorStatus);
 	}
 
-	@Override
-	public int getElevatorAccel(int elevatorNumber) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getTargetFloor() {
+		return targetFloor;
 	}
 
-	@Override
-	public boolean getElevatorButton(int elevatorNumber, int floor) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+	public void setTargetFloor(int targetFloor) {
+		this.targetFloor = targetFloor;
 	}
 
-	@Override
-	public int getElevatorDoorStatus(int elevatorNumber) throws RemoteException {
-		// 1=open and 2=closed
-		return elevatorNumber % 2 + 1;
+	public int getCurrentFloor() {
+		return currentFloor;
 	}
 
-	@Override
-	public int getElevatorFloor(int elevatorNumber) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+	public void setCurrentFloor(int currentFloor) {
+		this.currentFloor = currentFloor;
 	}
 
-	@Override
-	public int getElevatorNum() throws RemoteException {
-		return num;
+	public int getWeight() {
+		return weight;
 	}
 
-	@Override
-	public int getElevatorPosition(int elevatorNumber) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 
-	@Override
-	public int getElevatorSpeed(int elevatorNumber) throws RemoteException {
-		return elevatorNumber * 11;
+	public int getSpeed() {
+		return speed;
 	}
 
-	@Override
-	public int getElevatorWeight(int elevatorNumber) throws RemoteException {
-		return elevatorNumber * 10;
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 
-	@Override
-	public int getElevatorCapacity(int elevatorNumber) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getDoorStatus() {
+		return doorStatus;
 	}
 
-	@Override
-	public boolean getFloorButtonDown(int floor) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getFloorButtonUp(int floor) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int getFloorHeight() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getFloorNum() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean getServicesFloors(int elevatorNumber, int floor) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int getTarget(int elevatorNumber) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setCommittedDirection(int elevatorNumber, int direction) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setServicesFloors(int elevatorNumber, int floor, boolean service) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setTarget(int elevatorNumber, int target) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public long getClockTick() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+	public void setDoorStatus(int doorStatus) {
+		this.doorStatus = doorStatus;
 	}
 
 }

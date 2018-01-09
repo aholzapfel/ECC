@@ -12,7 +12,7 @@ public class ElevatorPropWrapper {
 	public ElevatorPropWrapper(IElevator elevator) {
 		this.elevator = elevator;
 	}
-	
+	/*
 	public StringProperty numProperty() throws RemoteException {
 	    return new SimpleStringProperty("Elevator " + elevator.getElevatorNum());
 	}
@@ -43,5 +43,5 @@ public class ElevatorPropWrapper {
 		}
 		
 	    return new SimpleStringProperty(doorStatus);
-	}
+	}*/
 }
