@@ -2,6 +2,7 @@ package at.fhhagenberg.sqe.ecc.controller;
 
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import at.fhhagenberg.sqe.ecc.Floor;
@@ -34,6 +35,7 @@ public class ElevatorController implements Initializable {
 	
 	private int spGoToSave;
 
+	private static HashMap<Integer, Integer> spGoToSaveValues = new HashMap<Integer, Integer>();
 	
 	@Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -46,6 +48,11 @@ public class ElevatorController implements Initializable {
 		try {
 			floorsValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, ElevatorControlCenter.getInstance().getFloorNum());
 			spGoTo.setValueFactory(floorsValueFactory);
+			
+			if(spGoToSaveValues.containsKey(elevatorNumber)){
+				
+				spGoTo.getValueFactory().setValue(spGoToSaveValues.get(elevatorNumber));
+			}
 			
 			elevatorFloorsController.setElevatorNumber(elevatorNumber);
 			
@@ -64,12 +71,11 @@ public class ElevatorController implements Initializable {
 
 				@Override
 				public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-					spGoToSave = newValue;
+					spGoToSaveValues.put(elevatorNumber, newValue);
 				}
 				
 			});
-			
-			spGoTo.getValueFactory().setValue(spGoToSave);
+
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
