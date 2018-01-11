@@ -4,9 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ElevatorControlCenter implements IElevator {
-	
-	static ElevatorControlCenter instance = null;
+public class ElevatorSystem implements IElevator {
 	
 	static List<ElevatorMock> elevators;
 	
@@ -14,9 +12,9 @@ public class ElevatorControlCenter implements IElevator {
 	private static int numberOfElevators;
 	
 	
-	public ElevatorControlCenter(int numberOfFloors, int numberOfElevators) {
-	   ElevatorControlCenter.numberOfFloors = numberOfFloors;
-	   ElevatorControlCenter.numberOfElevators = numberOfElevators;
+	public ElevatorSystem(int numberOfFloors, int numberOfElevators) {
+	   ElevatorSystem.numberOfFloors = numberOfFloors;
+	   ElevatorSystem.numberOfElevators = numberOfElevators;
 	    
 	   initElevatorMock();
 	}
@@ -25,7 +23,7 @@ public class ElevatorControlCenter implements IElevator {
 		elevators = new ArrayList<ElevatorMock>();
 		
 		for(int i = 0; i < numberOfElevators; i++) {
-			elevators.add(new ElevatorMock(0,0,100,2,1));
+			elevators.add(new ElevatorMock(1,1,100,2,1));
 		}
 	}
 	   
@@ -113,7 +111,7 @@ public class ElevatorControlCenter implements IElevator {
 	
 	@Override
 	public int getTarget(int elevatorNumber) throws RemoteException {
-		return elevators.get(elevatorNumber).getTargetFloor();
+		return elevators.get(elevatorNumber-1).getTargetFloor();
 	}
 	
 	@Override
@@ -135,14 +133,5 @@ public class ElevatorControlCenter implements IElevator {
 	@Override
 	public long getClockTick() throws RemoteException {
 		return 2000;
-	}
-	
-	public static ElevatorControlCenter getInstance() {
-	
-		if(instance == null) {
-			instance = new ElevatorControlCenter(numberOfFloors, numberOfElevators);
-		} 
-
-		return instance;
 	}
 }

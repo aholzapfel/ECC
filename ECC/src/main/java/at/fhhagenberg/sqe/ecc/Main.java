@@ -2,12 +2,14 @@ package at.fhhagenberg.sqe.ecc;
 	
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import at.fhhagenberg.sqe.ecc.controller.ElevatorControlCenterController;
-import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorControlCenter;
+import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorSystem;
+import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -28,14 +30,15 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			ElevatorControlCenter ecc = new ElevatorControlCenter(NUMBER_OF_FLOORS, NUMBER_OF_ELEVATORS);
+			IElevator elevatorSystem = new ElevatorSystem(NUMBER_OF_FLOORS, NUMBER_OF_ELEVATORS);
 			
 			URL location = Main.class.getClassLoader().getResource("layouts\\elevator_control_center.fxml");
 			
 			FXMLLoader loader = new FXMLLoader(location);
-			Pane root = (Pane) loader.load();
+			Pane root = loader.load();
 
 			controller =  loader.<ElevatorControlCenterController>getController();
+			controller.init(elevatorSystem);
 			
 			Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 			scene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
@@ -45,21 +48,16 @@ public class Main extends Application {
 			primaryStage.setMinHeight(WINDOW_HEIGHT);
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
 		
-		Runnable updateRunnable = new Runnable() {
-		    public void run() {
-				controller.update();
-		    }
-		};
+			Runnable updateRunnable = new Runnable() {
+			    public void run() {
+					controller.update();
+			    }
+			};
 
-		try {
 			ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-			executor.scheduleAtFixedRate(updateRunnable, 0, ElevatorControlCenter.getInstance().getClockTick(), TimeUnit.MILLISECONDS);
-		} catch (RemoteException e) {
+			executor.scheduleAtFixedRate(updateRunnable, 0, elevatorSystem.getClockTick(), TimeUnit.MILLISECONDS);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

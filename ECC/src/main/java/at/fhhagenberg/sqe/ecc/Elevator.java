@@ -2,7 +2,7 @@ package at.fhhagenberg.sqe.ecc;
 
 import java.rmi.RemoteException;
 
-import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorControlCenter;
+import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -10,9 +10,13 @@ public class Elevator {
 
 	private static int elevatorsCounter = 1;
 	
+	private IElevator elevatorSystem;
+	
 	private int number;
 	
-	public Elevator() {
+	public Elevator(IElevator elevatorSystem) {
+		this.elevatorSystem = elevatorSystem;
+		
 		this.number = elevatorsCounter++;
 	}
 	
@@ -21,19 +25,19 @@ public class Elevator {
 	}
 	
 	public StringProperty payloadProperty() throws RemoteException {
-		int weight = ElevatorControlCenter.getInstance().getElevatorWeight(number);
+		int weight = elevatorSystem.getElevatorWeight(number);
 	    return new SimpleStringProperty(weight + " lbs");
 	}
 	
 	public StringProperty speedProperty() throws RemoteException {
-		int speed = ElevatorControlCenter.getInstance().getElevatorSpeed(number);
+		int speed = elevatorSystem.getElevatorSpeed(number);
 	    return new SimpleStringProperty(speed + " m/s");
 	}
 	
 	public StringProperty doorProperty() throws RemoteException {
 		String doorStatus = "";
 		
-		switch(ElevatorControlCenter.getInstance().getElevatorDoorStatus(number)) {
+		switch(elevatorSystem.getElevatorDoorStatus(number)) {
 			case 1:
 				doorStatus = "Open";
 				break;

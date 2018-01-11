@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 
 import at.fhhagenberg.sqe.ecc.Floor;
 import at.fhhagenberg.sqe.ecc.Main;
+import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -15,7 +16,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class FloorsListViewCell extends ListCell<Floor> {
-
+	
+	private IElevator elevatorSystem;
+	
+	public FloorsListViewCell(IElevator elevatorSystem) {
+		this.elevatorSystem = elevatorSystem;
+	}
+	
 	@Override
 	public void updateItem(Floor floor, boolean empty) {
 		super.updateItem(floor, empty);
@@ -41,7 +48,7 @@ public class FloorsListViewCell extends ListCell<Floor> {
 	 
 	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
 	            Image img;
-	            if(floor.getUp()) {
+	            if(elevatorSystem.getFloorButtonUp(floor.getNumber())) {
 	            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_up_pressed.png").toString());
 	            } else {
 	            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_up.png").toString());
@@ -52,7 +59,7 @@ public class FloorsListViewCell extends ListCell<Floor> {
 	            root.getChildren().addAll(up);
 	            
 	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
-	            if(floor.getDown()) {
+	            if(elevatorSystem.getFloorButtonDown(floor.getNumber())) {
 	            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_down_pressed.png").toString());
 	            } else {
 	            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_down.png").toString());

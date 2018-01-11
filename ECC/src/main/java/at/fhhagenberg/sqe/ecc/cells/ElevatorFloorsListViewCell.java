@@ -4,7 +4,8 @@ import java.rmi.RemoteException;
 
 import at.fhhagenberg.sqe.ecc.Floor;
 import at.fhhagenberg.sqe.ecc.Main;
-import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorControlCenter;
+import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorSystem;
+import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ListCell;
@@ -14,9 +15,11 @@ import javafx.scene.layout.HBox;
 
 public class ElevatorFloorsListViewCell extends ListCell<Floor> {
 
+	private IElevator elevatorSystem;
 	private int elevatorNumber;
 	
-	public ElevatorFloorsListViewCell(int elevatorNumber) {
+	public ElevatorFloorsListViewCell(IElevator elevatorSystem, int elevatorNumber) {
+		this.elevatorSystem = elevatorSystem;
 		this.elevatorNumber = elevatorNumber;
 	}
 	
@@ -24,60 +27,58 @@ public class ElevatorFloorsListViewCell extends ListCell<Floor> {
 	public void updateItem(Floor floor, boolean empty) {
 		super.updateItem(floor, empty);
 		
+		int floorNr = getIndex()+1;
+		
 		if (empty) {
 			setText(null);
 			setGraphic(null);
-		} else {		
-			setText(null);
-			 
-			
-            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
-            HBox root = new HBox();
-            root.setPadding(new Insets(0, 10, 0, 10));
-            root.setAlignment(Pos.CENTER);
- 
-            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
-            Image img;
-            if(false) { // TODO
-            	img = new Image(Main.class.getClassLoader().getResource("images\\lamp_on.png").toString());
-            } else {
-            	img = new Image(Main.class.getClassLoader().getResource("images\\lamp_off.png").toString());
-            }
-            
-            Image floorStatus;
-            try {
-				if(ElevatorControlCenter.getInstance().getElevatorFloor(elevatorNumber) == getIndex()) {
-					floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_arrived.png").toString());
-				} else {
-				    if(floor.getDown()) {
-				    	floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_moving_down.png").toString());
-				    } else if(floor.getUp()) {
+		} else {	
+			 try {
+				setText(null);
+				 
+	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
+	            HBox root = new HBox();
+	            root.setPadding(new Insets(0, 10, 0, 10));
+	            root.setAlignment(Pos.CENTER);
+	 
+	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
+	            Image img;
+	            if(elevatorSystem.getElevatorButton(elevatorNumber, floor.getNumber())) {
+	            	img = new Image(Main.class.getClassLoader().getResource("images\\lamp_on.png").toString());
+	            } else {
+	            	img = new Image(Main.class.getClassLoader().getResource("images\\lamp_off.png").toString());
+	            }
+	            
+	            Image floorStatus = null;
+				if(elevatorSystem.getElevatorFloor(elevatorNumber) == floorNr) {
+					if(elevatorSystem.getTarget(elevatorNumber) == floorNr) {
+						floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_arrived.png").toString());
+					}
+					else if(elevatorSystem != null && elevatorSystem.getElevatorFloor(elevatorNumber) > floorNr) {
+					    	floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_moving_down.png").toString());
+					}
+				    else if(elevatorSystem != null && elevatorSystem.getElevatorFloor(elevatorNumber) < floorNr) {
 				    	floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_moving_up.png").toString());
-				    } else {
-				    	floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_not_moving.png").toString());
 				    }
-				   
-				}
+				} else {
+			    	floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_not_moving.png").toString());
+			    }
 				
 	            ImageView elevatorFloorStatus = new ImageView(floorStatus);
 	            elevatorFloorStatus.setFitHeight(25);
 	            elevatorFloorStatus.setFitWidth(25);
 	            root.getChildren().addAll(elevatorFloorStatus);
+	            
+	            ImageView lamp = new ImageView(img);
+	            lamp.setFitHeight(25);
+	            lamp.setFitWidth(25);
+	            root.getChildren().addAll(lamp);
+	 
+	            setGraphic(root);
+	            
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            
-
-
-            
-            ImageView lamp = new ImageView(img);
-            lamp.setFitHeight(25);
-            lamp.setFitWidth(25);
-            root.getChildren().addAll(lamp);
- 
-            
-            setGraphic(root);
 		}
 	}
 

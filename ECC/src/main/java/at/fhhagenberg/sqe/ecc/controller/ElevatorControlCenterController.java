@@ -1,25 +1,22 @@
 package at.fhhagenberg.sqe.ecc.controller;
 
-import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import at.fhhagenberg.sqe.ecc.Elevator;
 import at.fhhagenberg.sqe.ecc.Floor;
 import at.fhhagenberg.sqe.ecc.cells.ElevatorsListViewCell;
-import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorControlCenter;
+import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
 
-public class ElevatorControlCenterController implements Initializable{
+public class ElevatorControlCenterController {
 	
     @FXML private ListView<Floor> floors;
     @FXML private FloorsController floorsController;
@@ -29,32 +26,34 @@ public class ElevatorControlCenterController implements Initializable{
 	protected List<Elevator> elevators = new ArrayList<>();
 	protected ListProperty<Elevator> listPropertyElevators = new SimpleListProperty<>();
 	
-	@Override
-    public void initialize(URL url, ResourceBundle rb) {
-		initElevators();
-	}
+	private IElevator elevatorSystem;
 	
-	private void initElevators() {
+	public void init(IElevator elevatorSystem) {
+		this.elevatorSystem = elevatorSystem;
 		
-		try {
-			for(int i = 0; i < ElevatorControlCenter.getInstance().getElevatorNum(); i++) {
-				elevators.add(new Elevator());
-			}
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+		floorsController.init(elevatorSystem);
 		
-		lvElevators.itemsProperty().bind(listPropertyElevators);
-		lvElevators.setCellFactory(new Callback<ListView<Elevator>, ListCell<Elevator>>() {
+		if(elevatorSystem != null) {
+			try {
+				
+				for(int i = 0; i < elevatorSystem.getElevatorNum(); i++) {
+					elevators.add(new Elevator(elevatorSystem));
+				}
 			
-			@Override
-			public ListCell<Elevator> call(ListView<Elevator> param) {
-				return new ElevatorsListViewCell();
+				lvElevators.itemsProperty().bind(listPropertyElevators);
+				lvElevators.setCellFactory(new Callback<ListView<Elevator>, ListCell<Elevator>>() {
+					
+					@Override
+					public ListCell<Elevator> call(ListView<Elevator> param) {
+						return new ElevatorsListViewCell(elevatorSystem);
+					}
+				});
+		        
+				listPropertyElevators.set(FXCollections.observableArrayList(elevators));
+			} catch (RemoteException e) {
+				e.printStackTrace();
 			}
-		});
-        
-		listPropertyElevators.set(FXCollections.observableArrayList(elevators));
-		
+		}
 	}
 	
 	public void update() {

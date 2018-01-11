@@ -1,20 +1,17 @@
 package at.fhhagenberg.sqe.ecc.controller;
 
-import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.ResourceBundle;
 
 import at.fhhagenberg.sqe.ecc.Floor;
-import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorControlCenter;
+import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-public class ElevatorController implements Initializable {
+public class ElevatorController {
 	
 	@FXML private ListView<Floor> elevatorFloors;
 	@FXML private ElevatorFloorsController elevatorFloorsController;
@@ -32,28 +29,27 @@ public class ElevatorController implements Initializable {
 	@FXML private Label lbSpeed;
 	@FXML private Label lbDoor;
 	
+	private IElevator elevatorSystem;
+	
 	private int spGoToSave;
 
 	
-	@Override
-    public void initialize(URL url, ResourceBundle rb) {
+	public void init(IElevator elevatorSystem) {
+		this.elevatorSystem = elevatorSystem;
 		
-		int elevatorNumber = Integer.parseInt(lbHeader.getText());
-		
-		
-		 SpinnerValueFactory<Integer> floorsValueFactory;
-		 
 		try {
-			floorsValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, ElevatorControlCenter.getInstance().getFloorNum());
-			spGoTo.setValueFactory(floorsValueFactory);
+			int elevatorNumber = Integer.parseInt(lbHeader.getText());
 			
-			elevatorFloorsController.setElevatorNumber(elevatorNumber);
+			elevatorFloorsController.init(elevatorSystem, elevatorNumber);
+		
+			SpinnerValueFactory<Integer> floorsValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, elevatorSystem.getFloorNum());
+			spGoTo.setValueFactory(floorsValueFactory);
 			
 			btGoTo.setOnAction(new EventHandler<ActionEvent>() {
 				
 			    @Override public void handle(ActionEvent e) {
 			    	try {
-						ElevatorControlCenter.getInstance().setTarget(elevatorNumber, spGoTo.getValue().intValue());
+			    		elevatorSystem.setTarget(elevatorNumber, spGoTo.getValue().intValue());
 					} catch (RemoteException e1) {
 						e1.printStackTrace();
 					}
