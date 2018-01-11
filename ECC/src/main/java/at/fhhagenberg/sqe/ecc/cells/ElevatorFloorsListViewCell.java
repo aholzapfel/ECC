@@ -27,8 +27,6 @@ public class ElevatorFloorsListViewCell extends ListCell<Floor> {
 	public void updateItem(Floor floor, boolean empty) {
 		super.updateItem(floor, empty);
 		
-		int floorNr = getIndex()+1;
-		
 		if (empty) {
 			setText(null);
 			setGraphic(null);
@@ -50,14 +48,14 @@ public class ElevatorFloorsListViewCell extends ListCell<Floor> {
 	            }
 	            
 	            Image floorStatus = null;
-				if(elevatorSystem.getElevatorFloor(elevatorNumber) == floorNr) {
-					if(elevatorSystem.getTarget(elevatorNumber) == floorNr) {
+				if(elevatorSystem.getElevatorFloor(elevatorNumber) == floor.getNumber()) {
+					if(elevatorSystem.getTarget(elevatorNumber) == floor.getNumber()) {
 						floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_arrived.png").toString());
 					}
-					else if(elevatorSystem != null && elevatorSystem.getElevatorFloor(elevatorNumber) > floorNr) {
+					else if(elevatorSystem != null && elevatorSystem.getElevatorFloor(elevatorNumber) > floor.getNumber()) {
 					    	floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_moving_down.png").toString());
 					}
-				    else if(elevatorSystem != null && elevatorSystem.getElevatorFloor(elevatorNumber) < floorNr) {
+				    else if(elevatorSystem != null && elevatorSystem.getElevatorFloor(elevatorNumber) < floor.getNumber()) {
 				    	floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_moving_up.png").toString());
 				    }
 				} else {

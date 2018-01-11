@@ -1,13 +1,11 @@
 package at.fhhagenberg.sqe.ecc;
 
 public class Floor {
-
-	private static int floorsCounter = 1;
 	
 	private int number;
 	
-	public Floor() {
-		this.number = floorsCounter++;
+	public Floor(int number) {
+		this.number = number;
 	}
 	
 	public int getNumber() {

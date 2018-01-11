@@ -29,8 +29,8 @@ public class ElevatorFloorsController {
 		this.elevatorNumber = elevatorNumber;
 		
 		try {
-			for(int i = 0; i < elevatorSystem.getFloorNum(); i++) {
-				floors.add(new Floor());
+			for(int i = 1; i <= elevatorSystem.getFloorNum(); i++) {
+				floors.add(new Floor(i));
 			}
 		} catch (RemoteException e) {
 			e.printStackTrace();

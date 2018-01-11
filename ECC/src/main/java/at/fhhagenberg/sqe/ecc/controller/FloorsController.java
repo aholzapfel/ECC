@@ -30,8 +30,8 @@ public class FloorsController {
 		
 		if(elevatorSystem != null) {
 			try {				
-				for(int i = 0; i < elevatorSystem.getFloorNum(); i++) {
-					floors.add(new Floor());
+				for(int i = 1; i <= elevatorSystem.getFloorNum(); i++) {
+					floors.add(new Floor(1));
 				}
 			
 				lvFloors.itemsProperty().bind(listPropertyFloors);
