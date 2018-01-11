@@ -1,41 +1,28 @@
 package at.fhhagenberg.sqe.ecc;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import java.rmi.RemoteException;
+
+import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorControlCenter;
 
 public class Floor {
 
 	private static int floorsCounter = 1;
 	
-	private IntegerProperty number;
-	private BooleanProperty up;
-	private BooleanProperty down;
+	private int number;
 	
 	public Floor() {
-		this.number = new SimpleIntegerProperty(floorsCounter++);
-		this.up = new SimpleBooleanProperty(false);
-		this.down = new SimpleBooleanProperty(false);
+		this.number = floorsCounter++;
 	}
 	
 	public int getNumber() {
-		return number.get();
+		return number;
 	}
 	
-	public boolean getUp() {
-		return up.get();
+	public boolean getUp() throws RemoteException {
+		return ElevatorControlCenter.getInstance().getFloorButtonUp(number);
 	}
 	
-	public void setUp(boolean up) {
-		this.up.set(up);
+	public boolean getDown() throws RemoteException {
+		return ElevatorControlCenter.getInstance().getFloorButtonDown(number);
 	}
-	
-	public boolean getDown() {
-		return down.get();
-	}
-	
-	public void setDown(boolean down) {
-		this.down.set(down);
-	}	
 }

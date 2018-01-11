@@ -3,8 +3,6 @@ package at.fhhagenberg.sqe.ecc;
 import java.rmi.RemoteException;
 
 import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorControlCenter;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 

@@ -53,7 +53,7 @@ public class ElevatorController implements Initializable {
 				
 			    @Override public void handle(ActionEvent e) {
 			    	try {
-						ElevatorControlCenter.getInstance().setTarget(elevatorNumber-1, spGoTo.getValue().intValue()-1);
+						ElevatorControlCenter.getInstance().setTarget(elevatorNumber, spGoTo.getValue().intValue());
 					} catch (RemoteException e1) {
 						e1.printStackTrace();
 					}

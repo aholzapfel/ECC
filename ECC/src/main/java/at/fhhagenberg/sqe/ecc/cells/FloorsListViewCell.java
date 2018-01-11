@@ -1,5 +1,7 @@
 package at.fhhagenberg.sqe.ecc.cells;
 
+import java.rmi.RemoteException;
+
 import at.fhhagenberg.sqe.ecc.Floor;
 import at.fhhagenberg.sqe.ecc.Main;
 import javafx.geometry.Insets;
@@ -21,44 +23,49 @@ public class FloorsListViewCell extends ListCell<Floor> {
 		if (empty) {
 			setText(null);
 			setGraphic(null);
-		} else {		
-			setText(null);
-			 
-            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
-            HBox root = new HBox();
-            root.setPadding(new Insets(0, 10, 0, 10));
-            root.setAlignment(Pos.CENTER);
- 
-            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
-            Label number = new Label(String.valueOf(floor.getNumber()));
-            number.setFont(Font.font("FontAwesome", FontWeight.BOLD, 16));
-            number.getStyleClass().add("cache-list-icon");
-            root.getChildren().addAll(number);
- 
-            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
-            Image img;
-            if(floor.getUp()) {
-            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_up_pressed.png").toString());
-            } else {
-            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_up.png").toString());
-            }
-            ImageView up = new ImageView(img);
-            up.setFitHeight(25);
-            up.setFitWidth(25);
-            root.getChildren().addAll(up);
-            
-            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
-            if(floor.getUp()) {
-            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_down_pressed.png").toString());
-            } else {
-            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_down.png").toString());
-            }
-            ImageView down = new ImageView(img);
-            down.setFitHeight(25);
-            down.setFitWidth(25);
-            root.getChildren().addAll(down);
- 
-            setGraphic(root);
+		} 
+		else {
+			try {
+				setText(null);
+				 
+	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
+	            HBox root = new HBox();
+	            root.setPadding(new Insets(0, 10, 0, 10));
+	            root.setAlignment(Pos.CENTER);
+	 
+	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
+	            Label number = new Label(String.valueOf(floor.getNumber()));
+	            number.setFont(Font.font("FontAwesome", FontWeight.BOLD, 16));
+	            number.getStyleClass().add("cache-list-icon");
+	            root.getChildren().addAll(number);
+	 
+	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
+	            Image img;
+	            if(floor.getUp()) {
+	            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_up_pressed.png").toString());
+	            } else {
+	            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_up.png").toString());
+	            }
+	            ImageView up = new ImageView(img);
+	            up.setFitHeight(25);
+	            up.setFitWidth(25);
+	            root.getChildren().addAll(up);
+	            
+	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
+	            if(floor.getDown()) {
+	            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_down_pressed.png").toString());
+	            } else {
+	            	img = new Image(Main.class.getClassLoader().getResource("images\\direction_down.png").toString());
+	            }
+	            ImageView down = new ImageView(img);
+	            down.setFitHeight(25);
+	            down.setFitWidth(25);
+	            root.getChildren().addAll(down);
+	 
+	            setGraphic(root);
+			} catch(RemoteException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

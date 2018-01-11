@@ -85,14 +85,12 @@ public class ElevatorControlCenter implements IElevator {
 	
 	@Override
 	public boolean getFloorButtonDown(int floor) throws RemoteException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
 	@Override
 	public boolean getFloorButtonUp(int floor) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -130,8 +128,8 @@ public class ElevatorControlCenter implements IElevator {
 	
 	@Override
 	public void setTarget(int elevatorNumber, int target) throws RemoteException {
-		elevators.get(elevatorNumber).setTargetFloor(target);
-		elevators.get(elevatorNumber).setCurrentFloor(target);
+		elevators.get(elevatorNumber-1).setTargetFloor(target-1);
+		elevators.get(elevatorNumber-1).setCurrentFloor(target-1);
 	}
 	
 	@Override

@@ -10,8 +10,6 @@ import at.fhhagenberg.sqe.ecc.Elevator;
 import at.fhhagenberg.sqe.ecc.Floor;
 import at.fhhagenberg.sqe.ecc.cells.ElevatorsListViewCell;
 import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorControlCenter;
-import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorMock;
-import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -38,14 +36,11 @@ public class ElevatorControlCenterController implements Initializable{
 	
 	private void initElevators() {
 		
-		//TODO get number of elevators from the control center
-		
 		try {
 			for(int i = 0; i < ElevatorControlCenter.getInstance().getElevatorNum(); i++) {
 				elevators.add(new Elevator());
 			}
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -62,16 +57,7 @@ public class ElevatorControlCenterController implements Initializable{
 		
 	}
 	
-	public void testGetController() {
-	floorsController.testController();
-	}
-	
-	public Elevator getElevator(int elevatorNumber) {
-		return elevators.get(elevatorNumber);
-	}
-	
 	public void update() {
-		
 		lvElevators.refresh();
 	}
 }
