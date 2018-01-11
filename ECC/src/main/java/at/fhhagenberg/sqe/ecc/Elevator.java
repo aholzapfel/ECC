@@ -1,49 +1,47 @@
 package at.fhhagenberg.sqe.ecc;
 
-import java.rmi.RemoteException;
-
-import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Elevator {
 
-	private static int elevatorsCounter = 1;
+	public IntegerProperty numberProperty;
+	public IntegerProperty payloadProperty;
+	public IntegerProperty speedProperty;
+	public StringProperty doorStatusProperty;
 	
-	private IElevator elevatorSystem;
+	public Elevator(int number) {		
+		this.numberProperty = new SimpleIntegerProperty(number);
+		this.payloadProperty = new SimpleIntegerProperty(0);
+		this.speedProperty = new SimpleIntegerProperty(0);
+		this.doorStatusProperty = new SimpleStringProperty("Closed");
+	}
 	
-	private int number;
+	public int getNumber() {
+		return numberProperty.get();
+	}
 	
-	public Elevator(IElevator elevatorSystem) {
-		this.elevatorSystem = elevatorSystem;
+	public void setPayload(int payload) {
+		payloadProperty.set(payload);
+	}
+	
+	public void setSpeed(int speed) {
+		speedProperty.set(speed);
+	}
+	
+	public void setDoorStatus(int doorStatus) {
+		String doorStatusStr = "";
 		
-		this.number = elevatorsCounter++;
-	}
-	
-	public StringProperty numProperty() throws RemoteException {
-	    return new SimpleStringProperty("" + number);
-	}
-	
-	public StringProperty payloadProperty() throws RemoteException {
-		int weight = elevatorSystem.getElevatorWeight(number);
-	    return new SimpleStringProperty(weight + " lbs");
-	}
-	
-	public StringProperty speedProperty() throws RemoteException {
-		int speed = elevatorSystem.getElevatorSpeed(number);
-	    return new SimpleStringProperty(speed + " m/s");
-	}
-	
-	public StringProperty doorProperty() throws RemoteException {
-		String doorStatus = "";
-		
-		switch(elevatorSystem.getElevatorDoorStatus(number)) {
+		switch(doorStatus) {
 			case 1:
-				doorStatus = "Open";
+				doorStatusStr = "Open";
 				break;
 			case 2:
-				doorStatus = "Closed";
+				doorStatusStr = "Closed";
 		}
-	    return new SimpleStringProperty(doorStatus);
+		
+		doorStatusProperty.set(doorStatusStr);
 	}
 }

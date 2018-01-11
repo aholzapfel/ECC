@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 public class ElevatorsListViewCell extends ListCell<Elevator> {
 
 	private IElevator elevatorSystem;
+	private ElevatorController controller;
 	
 	public ElevatorsListViewCell(IElevator elevatorSystem) {
 		this.elevatorSystem = elevatorSystem;
@@ -32,11 +33,11 @@ public class ElevatorsListViewCell extends ListCell<Elevator> {
             	URL location = Main.class.getClassLoader().getResource("layouts\\elevator.fxml");
                 FXMLLoader loader = new FXMLLoader(location); 
                 
-                loader.getNamespace().put("elevator", elevator);
+                //loader.getNamespace().put("elevator", elevator);
                 Pane root = loader.load();
                 
-                ElevatorController controller =  loader.<ElevatorController>getController();
-    			controller.init(elevatorSystem);
+                controller =  loader.<ElevatorController>getController();
+    			controller.init(elevatorSystem, elevator);
                 
                 setGraphic(root);
             } catch (IOException e) {
@@ -44,5 +45,11 @@ public class ElevatorsListViewCell extends ListCell<Elevator> {
                 setGraphic(null);
             } 
         }
+	}
+	
+	public void refreshFloors() {
+		if(controller != null) {
+			controller.refreshFloors();
+		}
 	}
 }

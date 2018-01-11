@@ -2,6 +2,9 @@ package at.fhhagenberg.sqe.ecc.controller;
 
 import java.rmi.RemoteException;
 
+import com.sun.javafx.css.converters.StringConverter;
+
+import at.fhhagenberg.sqe.ecc.Elevator;
 import at.fhhagenberg.sqe.ecc.Floor;
 import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.beans.value.ChangeListener;
@@ -10,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.converter.NumberStringConverter;
 
 public class ElevatorController {
 	
@@ -30,17 +34,25 @@ public class ElevatorController {
 	@FXML private Label lbDoor;
 	
 	private IElevator elevatorSystem;
+	private Elevator elevator;
 	
-	private int spGoToSave;
-
 	
-	public void init(IElevator elevatorSystem) {
-		this.elevatorSystem = elevatorSystem;
-		
+	public void init(IElevator elevatorSystem, Elevator elevator) {
 		try {
-			int elevatorNumber = Integer.parseInt(lbHeader.getText());
+			this.elevatorSystem = elevatorSystem;
+			this.elevator = elevator;
 			
-			elevatorFloorsController.init(elevatorSystem, elevatorNumber);
+			elevatorFloorsController.init(elevatorSystem, elevator.getNumber());
+			
+			// bind elevator properties to GUI
+			lbHeader.textProperty().bindBidirectional(elevator.numberProperty, new NumberStringConverter());
+			lbPayload.textProperty().bindBidirectional(elevator.payloadProperty, new NumberStringConverter());
+			lbSpeed.textProperty().bindBidirectional(elevator.speedProperty, new NumberStringConverter());
+			lbDoor.textProperty().bind(elevator.doorStatusProperty);
+			
+			// Go to is only enabled if manual mode is selected
+			spGoTo.disableProperty().bind(tbModeManual.selectedProperty().not());
+			btGoTo.disableProperty().bind(tbModeManual.selectedProperty().not());
 		
 			SpinnerValueFactory<Integer> floorsValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, elevatorSystem.getFloorNum());
 			spGoTo.setValueFactory(floorsValueFactory);
@@ -49,26 +61,19 @@ public class ElevatorController {
 				
 			    @Override public void handle(ActionEvent e) {
 			    	try {
-			    		elevatorSystem.setTarget(elevatorNumber, spGoTo.getValue().intValue());
+			    		elevatorSystem.setTarget(elevator.getNumber(), spGoTo.getValue().intValue());
 					} catch (RemoteException e1) {
 						e1.printStackTrace();
 					}
 			    }
 			});
-
-			spGoTo.valueProperty().addListener(new ChangeListener<Integer>() {
-
-				@Override
-				public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-					spGoToSave = newValue;
-				}
-				
-			});
-			
-			spGoTo.getValueFactory().setValue(spGoToSave);
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void refreshFloors() {
+		elevatorFloorsController.refreshFloors();
 	}
 }

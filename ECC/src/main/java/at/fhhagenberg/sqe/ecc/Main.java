@@ -11,6 +11,7 @@ import at.fhhagenberg.sqe.ecc.controller.ElevatorControlCenterController;
 import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorSystem;
 import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -49,14 +50,7 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		
-			Runnable updateRunnable = new Runnable() {
-			    public void run() {
-					controller.update();
-			    }
-			};
-
-			ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-			executor.scheduleAtFixedRate(updateRunnable, 0, elevatorSystem.getClockTick(), TimeUnit.MILLISECONDS);
+			startPolling(elevatorSystem.getClockTick());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -64,5 +58,16 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	private void startPolling(long clockTick) {
+		Runnable pollingRunnable = new Runnable() {
+		    public void run() {
+		    	Platform.runLater(controller.updateRunnable);
+		    }
+		};
+
+		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		executor.scheduleAtFixedRate(pollingRunnable, 0, clockTick, TimeUnit.MILLISECONDS);
 	}
 }

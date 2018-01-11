@@ -26,27 +26,29 @@ public class FloorsController {
 
 	
 	public void init(IElevator elevatorSystem) {
-		this.elevatorSystem = elevatorSystem;
-		
-		if(elevatorSystem != null) {
-			try {				
-				for(int i = 1; i <= elevatorSystem.getFloorNum(); i++) {
-					floors.add(new Floor(1));
-				}
+		try {	
+			this.elevatorSystem = elevatorSystem;
 			
-				lvFloors.itemsProperty().bind(listPropertyFloors);
-				lvFloors.setCellFactory(new Callback<ListView<Floor>, ListCell<Floor>>() {
-					
-					@Override
-					public ListCell<Floor> call(ListView<Floor> param) {
-						return new FloorsListViewCell(elevatorSystem);
-					}
-				});
-		        
-				listPropertyFloors.set(FXCollections.observableArrayList(floors));
-			} catch (RemoteException e) {
-				e.printStackTrace();
+			for(int i = 1; i <= elevatorSystem.getFloorNum(); i++) {
+				floors.add(new Floor(1));
 			}
+		
+			lvFloors.itemsProperty().bind(listPropertyFloors);
+			lvFloors.setCellFactory(new Callback<ListView<Floor>, ListCell<Floor>>() {
+				
+				@Override
+				public ListCell<Floor> call(ListView<Floor> param) {
+					return new FloorsListViewCell(elevatorSystem);
+				}
+			});
+	        
+			listPropertyFloors.set(FXCollections.observableArrayList(floors));
+		} catch (RemoteException e) {
+			e.printStackTrace();
 		}
+	}
+	
+	public void refreshFloors() {
+		lvFloors.refresh();
 	}
 }

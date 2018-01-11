@@ -29,7 +29,7 @@
 			<ToggleGroup fx:id="tgMode"/>  
 		</fx:define>
 		
-		<Label fx:id="lbHeader" text="${elevator.numProperty.value}" alignment="CENTER"
+		<Label fx:id="lbHeader" alignment="CENTER"
 				GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
 		
 		<ToggleButton fx:id="tbModeAutomatic" text="Automatic" toggleGroup="$tgMode" 
@@ -44,17 +44,17 @@
 					
 		<Label text="Payload:" 
 				GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-		<Label fx:id="lbPayload" text="${elevator.payloadProperty.value}"
+		<Label fx:id="lbPayload"
 				GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 				
 		<Label text="Speed:" 
 				GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-		<Label fx:id="lbSpeed" text="${elevator.speedProperty.value}"
+		<Label fx:id="lbSpeed"
 				GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 				
 		<Label text="Door:" 
 				GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-		<Label fx:id="lbDoor" text="${elevator.doorProperty.value}"
+		<Label fx:id="lbDoor"
 				GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 	</GridPane>
 				

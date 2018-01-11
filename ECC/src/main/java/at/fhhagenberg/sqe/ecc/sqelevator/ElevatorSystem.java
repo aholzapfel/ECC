@@ -83,12 +83,12 @@ public class ElevatorSystem implements IElevator {
 	
 	@Override
 	public boolean getFloorButtonDown(int floor) throws RemoteException {
-		return false;
+		return Math.random() < 0.5;
 	}
 	
 	@Override
 	public boolean getFloorButtonUp(int floor) throws RemoteException {
-		return true;
+		return Math.random() < 0.5;
 	}
 	
 	@Override
@@ -126,8 +126,8 @@ public class ElevatorSystem implements IElevator {
 	
 	@Override
 	public void setTarget(int elevatorNumber, int target) throws RemoteException {
-		elevators.get(elevatorNumber-1).setTargetFloor(target-1);
-		elevators.get(elevatorNumber-1).setCurrentFloor(target-1);
+		elevators.get(elevatorNumber-1).setTargetFloor(target);
+		elevators.get(elevatorNumber-1).setCurrentFloor(target);
 	}
 	
 	@Override

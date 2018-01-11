@@ -25,26 +25,31 @@ public class ElevatorFloorsController {
 	protected ListProperty<Floor> listPropertyFloors = new SimpleListProperty<>();
 	
 	public void init(IElevator elevatorSystem, int elevatorNumber) {
-		this.elevatorSystem = elevatorSystem;
-		this.elevatorNumber = elevatorNumber;
-		
 		try {
+			this.elevatorSystem = elevatorSystem;
+			this.elevatorNumber = elevatorNumber;
+		
 			for(int i = 1; i <= elevatorSystem.getFloorNum(); i++) {
 				floors.add(new Floor(i));
 			}
+	
+			lvFloors.itemsProperty().bind(listPropertyFloors);
+			lvFloors.setCellFactory(new Callback<ListView<Floor>, ListCell<Floor>>() {
+				
+				@Override
+				public ListCell<Floor> call(ListView<Floor> param) {
+					return new ElevatorFloorsListViewCell(elevatorSystem, elevatorNumber);
+				}
+			});
+	        
+			listPropertyFloors.set(FXCollections.observableArrayList(floors));
+			
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-
-		lvFloors.itemsProperty().bind(listPropertyFloors);
-		lvFloors.setCellFactory(new Callback<ListView<Floor>, ListCell<Floor>>() {
-			
-			@Override
-			public ListCell<Floor> call(ListView<Floor> param) {
-				return new ElevatorFloorsListViewCell(elevatorSystem, elevatorNumber);
-			}
-		});
-        
-		listPropertyFloors.set(FXCollections.observableArrayList(floors));
+	}
+	
+	public void refreshFloors() {
+		lvFloors.refresh();
 	}
 }
