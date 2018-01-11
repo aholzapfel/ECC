@@ -47,18 +47,14 @@ public class ElevatorController implements Initializable {
 			floorsValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, ElevatorControlCenter.getInstance().getFloorNum());
 			spGoTo.setValueFactory(floorsValueFactory);
 			
-			lbPayload.setText( elevatorNumber*ElevatorControlCenter.getInstance().getElevatorWeight(elevatorNumber) + " lbs");
-			lbSpeed.setText( elevatorNumber*ElevatorControlCenter.getInstance().getElevatorSpeed(elevatorNumber) + " m/s");
-			lbDoor.setText( ElevatorControlCenter.getInstance().getElevatorDoorStatus(elevatorNumber) + " status");
 			elevatorFloorsController.setElevatorNumber(elevatorNumber);
+			
 			btGoTo.setOnAction(new EventHandler<ActionEvent>() {
 				
 			    @Override public void handle(ActionEvent e) {
 			    	try {
 						ElevatorControlCenter.getInstance().setTarget(elevatorNumber-1, spGoTo.getValue().intValue()-1);
-						System.out.println("clicked on " + (elevatorNumber-1));
 					} catch (RemoteException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 			    }
@@ -68,7 +64,6 @@ public class ElevatorController implements Initializable {
 
 				@Override
 				public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-					System.out.println("new val" + newValue);
 					spGoToSave = newValue;
 				}
 				
@@ -77,13 +72,7 @@ public class ElevatorController implements Initializable {
 			spGoTo.getValueFactory().setValue(spGoToSave);
 			
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	}
-	
-	public void testController() {
-		System.out.println("elevator works");
 	}
 }

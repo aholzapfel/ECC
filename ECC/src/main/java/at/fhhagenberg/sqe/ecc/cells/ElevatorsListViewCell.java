@@ -5,10 +5,7 @@ import java.net.URL;
 
 import at.fhhagenberg.sqe.ecc.Elevator;
 import at.fhhagenberg.sqe.ecc.Main;
-import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorPropWrapper;
-import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 
 public class ElevatorsListViewCell extends ListCell<Elevator> {

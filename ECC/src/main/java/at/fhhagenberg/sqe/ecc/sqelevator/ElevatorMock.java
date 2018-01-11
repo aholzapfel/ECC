@@ -1,7 +1,5 @@
 package at.fhhagenberg.sqe.ecc.sqelevator;
 
-import java.rmi.RemoteException;
-
 public class ElevatorMock {
 	
 	private int targetFloor;

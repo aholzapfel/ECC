@@ -44,17 +44,17 @@
 					
 		<Label text="Payload:" 
 				GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-		<Label fx:id="lbPayload" 
+		<Label fx:id="lbPayload" text="${elevator.payloadProperty.value}"
 				GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 				
 		<Label text="Speed:" 
 				GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-		<Label fx:id="lbSpeed"  
+		<Label fx:id="lbSpeed" text="${elevator.speedProperty.value}"
 				GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 				
 		<Label text="Door:" 
 				GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-		<Label fx:id="lbDoor"
+		<Label fx:id="lbDoor" text="${elevator.doorProperty.value}"
 				GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 	</GridPane>
 				
