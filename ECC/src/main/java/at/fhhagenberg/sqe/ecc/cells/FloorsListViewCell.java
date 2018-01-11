@@ -31,7 +31,7 @@ public class FloorsListViewCell extends ListCell<Floor> {
  
             // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
             Label number = new Label(String.valueOf(floor.getNumber()));
-            number.setFont(Font.font("FontAwesome", FontWeight.BOLD, 24));
+            number.setFont(Font.font("FontAwesome", FontWeight.BOLD, 16));
             number.getStyleClass().add("cache-list-icon");
             root.getChildren().addAll(number);
  
