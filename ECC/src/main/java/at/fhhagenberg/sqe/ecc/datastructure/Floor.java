@@ -1,4 +1,4 @@
-package at.fhhagenberg.sqe.ecc;
+package at.fhhagenberg.sqe.ecc.datastructure;
 
 public class Floor {
 	

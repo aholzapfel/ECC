@@ -1,14 +1,11 @@
 package at.fhhagenberg.sqe.ecc;
 	
 import java.net.URL;
-import java.rmi.RemoteException;
-import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import at.fhhagenberg.sqe.ecc.controller.ElevatorControlCenterController;
-import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorSystem;
 import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -23,16 +20,22 @@ public class Main extends Application {
 	private static final int WINDOW_HEIGHT = 500;
 	private static final int WINDOW_WIDTH = 800;
 	
-	private static final int NUMBER_OF_FLOORS = 4;
-	private static final int NUMBER_OF_ELEVATORS = 4;
+	private static IElevator elevatorSystem;
+	private static ElevatorControlCenterController controller;
 	
-	ElevatorControlCenterController controller;
+	
+	public Main() {
+		// TODO Create elevator system
+		throw new UnsupportedOperationException();
+	}
+	
+	public Main(IElevator elevatorSystem) {
+		this.elevatorSystem = elevatorSystem;
+	}
 	
 	@Override
 	public void start(Stage primaryStage) {
-		try {
-			IElevator elevatorSystem = new ElevatorSystem(NUMBER_OF_FLOORS, NUMBER_OF_ELEVATORS);
-			
+		try {		
 			URL location = Main.class.getClassLoader().getResource("layouts\\elevator_control_center.fxml");
 			
 			FXMLLoader loader = new FXMLLoader(location);

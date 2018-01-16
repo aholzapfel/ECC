@@ -1,4 +1,4 @@
-package at.fhhagenberg.sqe.ecc;
+package at.fhhagenberg.sqe.ecc.datastructure;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

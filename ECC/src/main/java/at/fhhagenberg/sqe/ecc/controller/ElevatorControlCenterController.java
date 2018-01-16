@@ -4,9 +4,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.fhhagenberg.sqe.ecc.Elevator;
-import at.fhhagenberg.sqe.ecc.Floor;
 import at.fhhagenberg.sqe.ecc.cells.ElevatorsListViewCell;
+import at.fhhagenberg.sqe.ecc.datastructure.Elevator;
+import at.fhhagenberg.sqe.ecc.datastructure.Floor;
 import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;

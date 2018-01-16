@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ElevatorSystem implements IElevator {
+public class ElevatorSystemMock implements IElevator {
 	
 	static List<ElevatorMock> elevators;
 	
@@ -12,9 +12,9 @@ public class ElevatorSystem implements IElevator {
 	private static int numberOfElevators;
 	
 	
-	public ElevatorSystem(int numberOfFloors, int numberOfElevators) {
-	   ElevatorSystem.numberOfFloors = numberOfFloors;
-	   ElevatorSystem.numberOfElevators = numberOfElevators;
+	public ElevatorSystemMock(int numberOfFloors, int numberOfElevators) {
+	   ElevatorSystemMock.numberOfFloors = numberOfFloors;
+	   ElevatorSystemMock.numberOfElevators = numberOfElevators;
 	    
 	   initElevatorMock();
 	}

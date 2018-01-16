@@ -4,8 +4,8 @@ import java.rmi.RemoteException;
 
 import com.sun.javafx.css.converters.StringConverter;
 
-import at.fhhagenberg.sqe.ecc.Elevator;
-import at.fhhagenberg.sqe.ecc.Floor;
+import at.fhhagenberg.sqe.ecc.datastructure.Elevator;
+import at.fhhagenberg.sqe.ecc.datastructure.Floor;
 import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

@@ -3,10 +3,10 @@ package at.fhhagenberg.sqe.ecc.cells;
 import java.io.IOException;
 import java.net.URL;
 
-import at.fhhagenberg.sqe.ecc.Elevator;
 import at.fhhagenberg.sqe.ecc.Main;
 import at.fhhagenberg.sqe.ecc.controller.ElevatorControlCenterController;
 import at.fhhagenberg.sqe.ecc.controller.ElevatorController;
+import at.fhhagenberg.sqe.ecc.datastructure.Elevator;
 import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
