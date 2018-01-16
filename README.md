@@ -1,1 +1,1 @@
-# ECC
+# ECC (Team 3)
