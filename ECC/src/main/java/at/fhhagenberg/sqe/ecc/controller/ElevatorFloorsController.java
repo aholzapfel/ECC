@@ -30,7 +30,7 @@ public class ElevatorFloorsController {
 			this.elevatorSystem = elevatorSystem;
 			this.elevatorNumber = elevatorNumber;
 		
-			for(int i = 1; i <= elevatorSystem.getFloorNum(); i++) {
+			for(int i = elevatorSystem.getFloorNum(); i >= 1; i--) {
 				floors.add(new Floor(i));
 			}
 	

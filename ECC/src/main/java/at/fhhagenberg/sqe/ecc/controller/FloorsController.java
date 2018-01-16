@@ -29,8 +29,8 @@ public class FloorsController {
 		try {	
 			this.elevatorSystem = elevatorSystem;
 			
-			for(int i = 1; i <= elevatorSystem.getFloorNum(); i++) {
-				floors.add(new Floor(1));
+			for(int i = elevatorSystem.getFloorNum(); i >= 1; i--) {
+				floors.add(new Floor(i));
 			}
 		
 			lvFloors.itemsProperty().bind(listPropertyFloors);
