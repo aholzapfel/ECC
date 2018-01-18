@@ -52,10 +52,10 @@ public class ElevatorFloorsListViewCell extends ListCell<Floor> {
 					if(elevatorSystem.getTarget(elevatorNumber) == floor.getNumber()) {
 						floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_arrived.png").toString());
 					}
-					else if(elevatorSystem != null && elevatorSystem.getElevatorFloor(elevatorNumber) > floor.getNumber()) {
-					    	floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_moving_down.png").toString());
+					else if(elevatorSystem.getTarget(elevatorNumber) < floor.getNumber()) {
+					    floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_moving_down.png").toString());
 					}
-				    else if(elevatorSystem != null && elevatorSystem.getElevatorFloor(elevatorNumber) < floor.getNumber()) {
+				    else if(elevatorSystem.getTarget(elevatorNumber) > floor.getNumber()) {
 				    	floorStatus = new Image(Main.class.getClassLoader().getResource("images\\elevator_moving_up.png").toString());
 				    }
 				} else {

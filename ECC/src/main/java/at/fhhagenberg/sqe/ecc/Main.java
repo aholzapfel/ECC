@@ -57,7 +57,7 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		
-			startPolling(elevatorSystem.getClockTick());
+			startPolling();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,7 +67,7 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	private void startPolling(long clockTick) {
+	private void startPolling() {
 		Runnable pollingRunnable = new Runnable() {
 		    public void run() {
 		    	Platform.runLater(controller.updateRunnable);
@@ -75,6 +75,6 @@ public class Main extends Application {
 		};
 
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(pollingRunnable, 0, clockTick, TimeUnit.MILLISECONDS);
+		executor.scheduleAtFixedRate(pollingRunnable, 0, 100, TimeUnit.MILLISECONDS);
 	}
 }
