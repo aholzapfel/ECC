@@ -1,0 +1,13 @@
+@ECHO OFF
+SETLOCAL
+
+SET ELEV_BIN_DIR=%~dp0
+SET ELEV_HOME=%ELEV_BIN_DIR%\..
+SET CLASS_PATH=%ELEV_HOME%\lib\*
+
+SET OLD_CD=%CD%
+cd %ELEV_HOME%
+java -cp "%CLASS_PATH%" elevator.Challenge %*
+cd %OLD_CD%
+
+ENDLOCAL
