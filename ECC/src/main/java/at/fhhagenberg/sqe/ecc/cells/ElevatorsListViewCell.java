@@ -7,10 +7,10 @@ import at.fhhagenberg.sqe.ecc.Main;
 import at.fhhagenberg.sqe.ecc.controller.ElevatorControlCenterController;
 import at.fhhagenberg.sqe.ecc.controller.ElevatorController;
 import at.fhhagenberg.sqe.ecc.datastructure.Elevator;
-import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.Pane;
+import sqelevator.IElevator;
 
 public class ElevatorsListViewCell extends ListCell<Elevator> {
 

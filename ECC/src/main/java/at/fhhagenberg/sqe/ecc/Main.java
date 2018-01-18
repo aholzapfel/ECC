@@ -1,15 +1,16 @@
 package at.fhhagenberg.sqe.ecc;
 	
 import java.net.URL;
+import java.rmi.Naming;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import at.fhhagenberg.sqe.ecc.controller.ElevatorControlCenterController;
-import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import sqelevator.IElevator;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
@@ -17,20 +18,23 @@ import javafx.fxml.FXMLLoader;
 
 public class Main extends Application {
 	
-	private static final int WINDOW_HEIGHT = 500;
-	private static final int WINDOW_WIDTH = 800;
+	private static final int WINDOW_HEIGHT = 800;
+	private static final int WINDOW_WIDTH = 500;
 	
 	private static IElevator elevatorSystem;
 	private static ElevatorControlCenterController controller;
 	
 	
 	public Main() {
-		// TODO Create elevator system
-		throw new UnsupportedOperationException();
+		try {
+			elevatorSystem = (IElevator) Naming.lookup("rmi://localhost/ElevatorSim");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public Main(IElevator elevatorSystem) {
-		this.elevatorSystem = elevatorSystem;
+		Main.elevatorSystem = elevatorSystem;
 	}
 	
 	@Override

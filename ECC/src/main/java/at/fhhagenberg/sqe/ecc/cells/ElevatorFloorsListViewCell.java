@@ -4,14 +4,14 @@ import java.rmi.RemoteException;
 
 import at.fhhagenberg.sqe.ecc.Main;
 import at.fhhagenberg.sqe.ecc.datastructure.Floor;
-import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorSystemMock;
-import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import sqelevator.ElevatorSystemMock;
+import sqelevator.IElevator;
 
 public class ElevatorFloorsListViewCell extends ListCell<Floor> {
 

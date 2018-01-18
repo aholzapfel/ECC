@@ -1,8 +1,10 @@
-package at.fhhagenberg.sqe.ecc.sqelevator;
+package sqelevator;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
+import sqelevator.IElevator;
 
 public class ElevatorSystemMock implements IElevator {
 	

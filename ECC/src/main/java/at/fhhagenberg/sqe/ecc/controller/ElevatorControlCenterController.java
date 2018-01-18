@@ -7,7 +7,6 @@ import java.util.List;
 import at.fhhagenberg.sqe.ecc.cells.ElevatorsListViewCell;
 import at.fhhagenberg.sqe.ecc.datastructure.Elevator;
 import at.fhhagenberg.sqe.ecc.datastructure.Floor;
-import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -15,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
+import sqelevator.IElevator;
 
 public class ElevatorControlCenterController {
 	
@@ -36,7 +36,7 @@ public class ElevatorControlCenterController {
 			
 			floorsController.init(elevatorSystem);
 			
-			for(int i = 1; i <= elevatorSystem.getElevatorNum(); i++) {
+			for(int i = 0; i <= elevatorSystem.getElevatorNum()-1; i++) {
 				elevators.add(initElevatorFromSystem(new Elevator(i)));
 			}
 		

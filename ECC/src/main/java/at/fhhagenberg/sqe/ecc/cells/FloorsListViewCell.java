@@ -4,7 +4,6 @@ import java.rmi.RemoteException;
 
 import at.fhhagenberg.sqe.ecc.Main;
 import at.fhhagenberg.sqe.ecc.datastructure.Floor;
-import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -14,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import sqelevator.IElevator;
 
 public class FloorsListViewCell extends ListCell<Floor> {
 	
@@ -41,7 +41,7 @@ public class FloorsListViewCell extends ListCell<Floor> {
 	            root.setAlignment(Pos.CENTER);
 	 
 	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
-	            Label number = new Label(String.valueOf(floor.getNumber()));
+	            Label number = new Label(String.valueOf(floor.getNumber()+1));
 	            number.setFont(Font.font("FontAwesome", FontWeight.BOLD, 16));
 	            number.getStyleClass().add("cache-list-icon");
 	            root.getChildren().addAll(number);

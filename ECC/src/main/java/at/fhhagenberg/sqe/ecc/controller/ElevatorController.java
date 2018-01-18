@@ -6,7 +6,6 @@ import com.sun.javafx.css.converters.StringConverter;
 
 import at.fhhagenberg.sqe.ecc.datastructure.Elevator;
 import at.fhhagenberg.sqe.ecc.datastructure.Floor;
-import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -14,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.converter.NumberStringConverter;
+import sqelevator.IElevator;
 
 public class ElevatorController {
 	
@@ -61,7 +61,7 @@ public class ElevatorController {
 				
 			    @Override public void handle(ActionEvent e) {
 			    	try {
-			    		elevatorSystem.setTarget(elevator.getNumber(), spGoTo.getValue().intValue());
+			    		elevatorSystem.setTarget(elevator.getNumber(), spGoTo.getValue().intValue()-1);
 					} catch (RemoteException e1) {
 						e1.printStackTrace();
 					}

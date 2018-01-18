@@ -3,10 +3,10 @@ package at.fhhagenberg.sqe.ecc;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.fhhagenberg.sqe.ecc.sqelevator.ElevatorSystemMock;
-import at.fhhagenberg.sqe.ecc.sqelevator.IElevator;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import sqelevator.ElevatorSystemMock;
+import sqelevator.IElevator;
 
 public class UiTestApplication extends Application {
 

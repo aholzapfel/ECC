@@ -1,4 +1,4 @@
-package at.fhhagenberg.sqe.ecc.sqelevator;
+package sqelevator;
 
 public class ElevatorMock {
 	
