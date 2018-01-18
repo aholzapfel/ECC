@@ -13,7 +13,7 @@ public class Elevator {
 	public StringProperty doorStatusProperty;
 	
 	public Elevator(int number) {		
-		this.numberProperty = new SimpleIntegerProperty(number);
+		this.numberProperty = new SimpleIntegerProperty(number+1);
 		this.payloadProperty = new SimpleIntegerProperty(0);
 		this.speedProperty = new SimpleIntegerProperty(0);
 		this.doorStatusProperty = new SimpleStringProperty("Closed");
