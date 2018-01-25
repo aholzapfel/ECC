@@ -12,8 +12,6 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
@@ -89,7 +87,6 @@ public class ElevatorControlCenterController {
 
 				clockTime = elevatorSystem.getClockTick();
 
-				
 				// check if new targets were pressed, elevators or floors
 				for (int i = 0; i < elevatorSystem.getFloorNum(); i++) {
 
@@ -100,15 +97,10 @@ public class ElevatorControlCenterController {
 							//floors to send elevator to
 							requestTargetQueue.add(i);
 						}
-						
-
 					}
 
 					for(int j = 0; j < elevators.size(); j++) {
-						//j = elevatorNum, i = floorNum
-						//TODO refactor
 						if (elevatorSystem.getElevatorButton(j, i)) {
-							//elevators.get(j);
 							insertIntoTargetQueue(j, i);
 						}
 					}
@@ -118,38 +110,18 @@ public class ElevatorControlCenterController {
 				for(Elevator elevator: elevators) {
 					if(elevator.getAutomatic()) {
 						
-						
 						//no elevator targets -> take element from floor queue
 						if(elevator.getNextTarget() == -1) {
 							if (!requestTargetQueue.isEmpty()) {
 								
 								for(int i = 0; i < requestTargetQueue.size(); i++) {
-									if(!elevatorTargetQueue.contains(requestTargetQueue.get(i))) {
-										
-										/*if(elevatorSystem.getTarget(elevator.getNumber()) == elevatorSystem.getElevatorFloor(elevator.getNumber())
-												&& elevatorSystem.getElevatorDoorStatus(elevator.getNumber()) == 1) {
-											elevatorTargetQueue.add(requestTargetQueue.get(i));
-											elevatorSystem.setTarget(elevator.getNumber(), requestTargetQueue.get(i));
-										}*/
-										
+									if(!elevatorTargetQueue.contains(requestTargetQueue.get(i))) {										
 										elevator.insertTarget(-1, requestTargetQueue.get(i));
 										elevatorTargetQueue.add(requestTargetQueue.get(i));
 										elevatorSystem.setTarget(elevator.getNumber(), elevator.getNextTarget());
 										break;
 									}
 								}
-								
-								/*
-								//check if elevators destination is already in target queue
-								if(elevatorSystem.getTarget(elevator.getNumber()) == elevatorSystem.getElevatorFloor(elevator.getNumber())) {
-									
-								} else {
-									elevatorTargetQueue.add(requestTargetQueue.get(0));
-									elevatorSystem.setTarget(elevator.getNumber(), requestTargetQueue.get(0));
-									requestTargetQueue.remove(0);
-								}
-								*/
-								
 							}
 						} else {
 							if (elevatorSystem.getTarget(elevator.getNumber()) != elevator.getNextTarget()) {
@@ -237,22 +209,6 @@ public class ElevatorControlCenterController {
 			}
 		} else {
 			elevators.get(elevatorNum).insertTarget(-1, target);
-		}
-	}
-
-	// remove helper method as remove object doesn't work with integer...
-	private void removeTarget(int target) {
-		for (int i = 0; i < requestTargetQueue.size(); i++) {
-			if (requestTargetQueue.get(i) == target) {
-				requestTargetQueue.remove(i);
-			}
-		}
-	}
-	
-	private void print() {
-		for(int i = 0; i < requestTargetQueue.size(); i++) {
-			System.out.print(requestTargetQueue.get(i));
-			System.out.print(" - ");
 		}
 	}
 }
