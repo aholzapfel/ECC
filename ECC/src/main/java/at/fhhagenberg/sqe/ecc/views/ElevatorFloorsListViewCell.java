@@ -1,9 +1,9 @@
-package at.fhhagenberg.sqe.ecc.cells;
+package at.fhhagenberg.sqe.ecc.views;
 
 import java.rmi.RemoteException;
 
 import at.fhhagenberg.sqe.ecc.Main;
-import at.fhhagenberg.sqe.ecc.datastructure.Floor;
+import at.fhhagenberg.sqe.ecc.viewmodels.Floor;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ListCell;

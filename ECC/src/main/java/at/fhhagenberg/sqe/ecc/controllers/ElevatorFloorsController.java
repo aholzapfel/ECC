@@ -1,11 +1,11 @@
-package at.fhhagenberg.sqe.ecc.controller;
+package at.fhhagenberg.sqe.ecc.controllers;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.fhhagenberg.sqe.ecc.cells.ElevatorFloorsListViewCell;
-import at.fhhagenberg.sqe.ecc.datastructure.Floor;
+import at.fhhagenberg.sqe.ecc.viewmodels.Floor;
+import at.fhhagenberg.sqe.ecc.views.ElevatorFloorsListViewCell;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;

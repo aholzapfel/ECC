@@ -1,4 +1,4 @@
-package at.fhhagenberg.sqe.ecc.datastructure;
+package at.fhhagenberg.sqe.ecc.viewmodels;
 
 import java.util.ArrayList;
 import java.util.Collections;

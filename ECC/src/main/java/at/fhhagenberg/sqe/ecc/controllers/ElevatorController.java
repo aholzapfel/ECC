@@ -1,11 +1,11 @@
-package at.fhhagenberg.sqe.ecc.controller;
+package at.fhhagenberg.sqe.ecc.controllers;
 
 import java.rmi.RemoteException;
 
 import com.sun.javafx.css.converters.StringConverter;
 
-import at.fhhagenberg.sqe.ecc.datastructure.Elevator;
-import at.fhhagenberg.sqe.ecc.datastructure.Floor;
+import at.fhhagenberg.sqe.ecc.viewmodels.Elevator;
+import at.fhhagenberg.sqe.ecc.viewmodels.Floor;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;

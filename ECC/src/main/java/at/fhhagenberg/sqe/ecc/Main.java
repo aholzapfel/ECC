@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import at.fhhagenberg.sqe.ecc.controller.ElevatorControlCenterController;
+import at.fhhagenberg.sqe.ecc.controllers.ElevatorControlCenterController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
