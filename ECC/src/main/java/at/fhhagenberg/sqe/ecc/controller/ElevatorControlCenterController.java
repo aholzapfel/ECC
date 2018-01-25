@@ -134,6 +134,7 @@ public class ElevatorControlCenterController {
 										
 										elevator.insertTarget(-1, requestTargetQueue.get(i));
 										elevatorTargetQueue.add(requestTargetQueue.get(i));
+										elevatorSystem.setTarget(elevator.getNumber(), elevator.getNextTarget());
 										break;
 									}
 								}
