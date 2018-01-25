@@ -6,7 +6,7 @@
 
 <GridPane 	xmlns:fx="http://javafx.com/fxml/1"
 			xmlns="http://javafx.com/javafx/8.0.40"
-			fx:controller="at.fhhagenberg.sqe.ecc.controller.ElevatorController">
+			fx:controller="at.fhhagenberg.sqe.ecc.controllers.ElevatorController">
 		
 	<columnConstraints>
 		<ColumnConstraints minWidth="150" maxWidth="150" /> 

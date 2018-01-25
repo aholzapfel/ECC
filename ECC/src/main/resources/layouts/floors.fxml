@@ -5,7 +5,7 @@
 
 <ListView	xmlns:fx="http://javafx.com/fxml/1"
 			xmlns="http://javafx.com/javafx/8.0.40"
-			fx:controller="at.fhhagenberg.sqe.ecc.controller.FloorsController"
+			fx:controller="at.fhhagenberg.sqe.ecc.controllers.FloorsController"
 			
 			fx:id="lvFloors"
 			prefWidth="100.0">
