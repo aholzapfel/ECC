@@ -85,19 +85,11 @@ public class Elevator {
 		if(!targets.isEmpty()) {
 			int currentFloor = targets.get(0);
 			targets.remove(0);
-			System.out.println("------remaining targets: before refactoring ---");
-			for(int i = 0; i < targets.size(); i++) {
-				System.out.print(targets.get(i));
-				System.out.print(" -> ");
-			}
+
 			if(!targets.isEmpty()) {
 				refactor(currentFloor, targets.get(0));
 			}
-			System.out.println("------remaining targets: after refactoring ---");
-			for(int i = 0; i < targets.size(); i++) {
-				System.out.print(targets.get(i));
-				System.out.print(" -> ");
-			}
+
 			/*
 			System.out.println("remaining targets: ");
 			for(int i = 0; i < targets.size(); i++) {
