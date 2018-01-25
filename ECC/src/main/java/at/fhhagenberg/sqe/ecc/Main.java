@@ -10,7 +10,9 @@ import java.util.concurrent.TimeUnit;
 import at.fhhagenberg.sqe.ecc.controller.ElevatorControlCenterController;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import sqelevator.IElevator;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -57,6 +59,11 @@ public class Main extends Application {
 			primaryStage.setMinWidth(WINDOW_WIDTH);
 			primaryStage.setMinHeight(WINDOW_HEIGHT);
 			primaryStage.setScene(scene);
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		          public void handle(WindowEvent we) {
+		              System.exit(0);
+		          }
+			}); 
 			primaryStage.show();
 		
 			startPolling();
