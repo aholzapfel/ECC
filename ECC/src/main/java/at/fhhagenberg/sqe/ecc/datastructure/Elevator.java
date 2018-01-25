@@ -18,110 +18,100 @@ public class Elevator {
 	public IntegerProperty speedProperty;
 	public StringProperty doorStatusProperty;
 	public BooleanProperty automaticProperty;
-	
+
 	private List<Integer> targets = new ArrayList<>();
-	
-	public Elevator(int number) {		
+
+	public Elevator(int number) {
 		this.numberProperty = new SimpleIntegerProperty(number);
 		this.payloadProperty = new SimpleIntegerProperty(0);
 		this.speedProperty = new SimpleIntegerProperty(0);
 		this.doorStatusProperty = new SimpleStringProperty("Closed");
 		automaticProperty = new SimpleBooleanProperty(false);
 	}
-	
+
 	public int getNumber() {
 		return numberProperty.get();
 	}
-	
+
 	public void setPayload(int payload) {
 		payloadProperty.set(payload);
 	}
-	
+
 	public void setSpeed(int speed) {
 		speedProperty.set(speed);
 	}
-	
+
 	public void setDoorStatus(int doorStatus) {
 		String doorStatusStr = "";
-		
-		switch(doorStatus) {
-			case 1:
-				doorStatusStr = "Open";
-				break;
-			case 2:
-				doorStatusStr = "Closed";
+
+		switch (doorStatus) {
+		case 1:
+			doorStatusStr = "Open";
+			break;
+		case 2:
+			doorStatusStr = "Closed";
 		}
-		
+
 		doorStatusProperty.set(doorStatusStr);
 	}
-	
+
 	public void getAutomatic(boolean isAutomatic) {
 		automaticProperty.set(isAutomatic);
 	}
-	
+
 	public boolean getAutomatic() {
 		return automaticProperty.get();
 	}
-	
+
 	public void insertTarget(int index, int target) {
-		if(!targets.contains(target)) {
-			if(targets.isEmpty() || index == -1) {
+		if (!targets.contains(target)) {
+			if (targets.isEmpty() || index == -1) {
 				targets.add(target);
 			} else {
 				targets.add(index, target);
 			}
 		}
 	}
-	
+
 	public int getNextTarget() {
-		if(!targets.isEmpty()) {
+		if (!targets.isEmpty()) {
 			return targets.get(0);
 		} else {
 			return -1;
 		}
 	}
-	
+
 	public void removeTargetFromList() {
-		if(!targets.isEmpty()) {
+		if (!targets.isEmpty()) {
 			int currentFloor = targets.get(0);
 			targets.remove(0);
 
-			if(!targets.isEmpty()) {
+			if (!targets.isEmpty()) {
 				refactor(currentFloor, targets.get(0));
 			}
-
-			/*
-			System.out.println("remaining targets: ");
-			for(int i = 0; i < targets.size(); i++) {
-				System.out.print(targets.get(i));
-				System.out.print(" -> ");
-			}
-			*/
 		}
 
 	}
-	
+
 	private void refactor(int currentFloor, int nextFloor) {
 		List<Integer> targetsInBetween = new ArrayList<>();
-		
-		for(int i = 0; i < targets.size(); i++) {
-			if(currentFloor < nextFloor && targets.get(i) > currentFloor && targets.get(i) < nextFloor) {
+
+		for (int i = 0; i < targets.size(); i++) {
+			if (currentFloor < nextFloor && targets.get(i) > currentFloor && targets.get(i) < nextFloor) {
 				targetsInBetween.add(targets.get(i));
 				targets.remove(i);
-			} else if(currentFloor > nextFloor && targets.get(i) < currentFloor && targets.get(i) > nextFloor) {
+			} else if (currentFloor > nextFloor && targets.get(i) < currentFloor && targets.get(i) > nextFloor) {
 				targetsInBetween.add(targets.get(i));
 				targets.remove(i);
 			}
 		}
-		
-		if(currentFloor < nextFloor) {
+
+		if (currentFloor < nextFloor) {
 			Collections.sort(targetsInBetween);
 		} else {
 			Collections.sort(targetsInBetween, Collections.reverseOrder());
 		}
-		
+
 		targets.addAll(0, targetsInBetween);
-	
-		
 	}
 }
