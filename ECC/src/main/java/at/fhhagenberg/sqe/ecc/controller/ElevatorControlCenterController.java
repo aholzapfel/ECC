@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.fhhagenberg.sqe.ecc.Main;
 import at.fhhagenberg.sqe.ecc.cells.ElevatorsListViewCell;
 import at.fhhagenberg.sqe.ecc.datastructure.Elevator;
 import at.fhhagenberg.sqe.ecc.datastructure.Floor;
@@ -11,6 +12,8 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
@@ -68,7 +71,6 @@ public class ElevatorControlCenterController {
 		public void run() {
 
 			try {
-
 				if (clockTime != elevatorSystem.getClockTick()) {
 					// Go throw all elevators and reload their data from elevator system
 					// Refreshes GUI automatically through binding
@@ -112,96 +114,83 @@ public class ElevatorControlCenterController {
 					}
 				}
 
-					// setting target
-					for(Elevator elevator: elevators) {
-						if(elevator.getAutomatic()) {
-							
-							
-							//no elevator targets -> take element from floor queue
-							if(elevator.getNextTarget() == -1) {
-								if (!requestTargetQueue.isEmpty()) {
-									
-									for(int i = 0; i < requestTargetQueue.size(); i++) {
-										if(!elevatorTargetQueue.contains(requestTargetQueue.get(i))) {
-											
-											/*if(elevatorSystem.getTarget(elevator.getNumber()) == elevatorSystem.getElevatorFloor(elevator.getNumber())
-													&& elevatorSystem.getElevatorDoorStatus(elevator.getNumber()) == 1) {
-												elevatorTargetQueue.add(requestTargetQueue.get(i));
-												elevatorSystem.setTarget(elevator.getNumber(), requestTargetQueue.get(i));
-											}*/
-											
-											elevator.insertTarget(-1, requestTargetQueue.get(i));
-											elevatorTargetQueue.add(requestTargetQueue.get(i));
-											break;
-										}
-									}
-									
-									/*
-									//check if elevators destination is already in target queue
-									if(elevatorSystem.getTarget(elevator.getNumber()) == elevatorSystem.getElevatorFloor(elevator.getNumber())) {
-										
-									} else {
-										elevatorTargetQueue.add(requestTargetQueue.get(0));
-										elevatorSystem.setTarget(elevator.getNumber(), requestTargetQueue.get(0));
-										requestTargetQueue.remove(0);
-									}
-									*/
-									
-								}
-							} else {
-								if (elevatorSystem.getTarget(elevator.getNumber()) != elevator.getNextTarget()) {
-									elevatorSystem.setTarget(elevator.getNumber(), elevator.getNextTarget());
-								}
-							}
-							
-							
-							if (elevatorSystem.getElevatorFloor(elevator.getNumber()) == elevatorSystem.getTarget(elevator.getNumber())
-									&& elevatorSystem.getElevatorDoorStatus(elevator.getNumber()) == 1) {
+				// setting target
+				for(Elevator elevator: elevators) {
+					if(elevator.getAutomatic()) {
+						
+						
+						//no elevator targets -> take element from floor queue
+						if(elevator.getNextTarget() == -1) {
+							if (!requestTargetQueue.isEmpty()) {
 								
-								if(elevator.getNextTarget() == -1) {
-									
-									if(elevatorTargetQueue.contains(elevatorSystem.getTarget(elevator.getNumber()))) {
-										int toRemove = elevatorTargetQueue.indexOf(elevatorSystem.getTarget(elevator.getNumber()));
-										elevatorTargetQueue.remove(toRemove);
+								for(int i = 0; i < requestTargetQueue.size(); i++) {
+									if(!elevatorTargetQueue.contains(requestTargetQueue.get(i))) {
 										
-										toRemove = requestTargetQueue.indexOf(elevator.getNextTarget());
-										if(toRemove != -1) {
-											requestTargetQueue.remove(toRemove);
-										}
+										/*if(elevatorSystem.getTarget(elevator.getNumber()) == elevatorSystem.getElevatorFloor(elevator.getNumber())
+												&& elevatorSystem.getElevatorDoorStatus(elevator.getNumber()) == 1) {
+											elevatorTargetQueue.add(requestTargetQueue.get(i));
+											elevatorSystem.setTarget(elevator.getNumber(), requestTargetQueue.get(i));
+										}*/
+										
+										elevator.insertTarget(-1, requestTargetQueue.get(i));
+										elevatorTargetQueue.add(requestTargetQueue.get(i));
+										break;
 									}
+								}
+								
+								/*
+								//check if elevators destination is already in target queue
+								if(elevatorSystem.getTarget(elevator.getNumber()) == elevatorSystem.getElevatorFloor(elevator.getNumber())) {
 									
 								} else {
-									if(requestTargetQueue.contains(elevator.getNextTarget())) {
-										int toRemove = requestTargetQueue.indexOf(elevator.getNextTarget());
-										requestTargetQueue.remove(toRemove);
-									}
-									
-									if(elevatorTargetQueue.contains(elevator.getNextTarget())) {
-										int toRemove = elevatorTargetQueue.indexOf(elevator.getNextTarget());
-										elevatorTargetQueue.remove(toRemove);
-									} else {
-										elevator.removeTargetFromList();
-									}
-									
-									
-									
+									elevatorTargetQueue.add(requestTargetQueue.get(0));
+									elevatorSystem.setTarget(elevator.getNumber(), requestTargetQueue.get(0));
+									requestTargetQueue.remove(0);
 								}
+								*/
 								
 							}
-							
+						} else {
+							if (elevatorSystem.getTarget(elevator.getNumber()) != elevator.getNextTarget()) {
+								elevatorSystem.setTarget(elevator.getNumber(), elevator.getNextTarget());
+							}
 						}
-
+						
+						
+						if (elevatorSystem.getElevatorFloor(elevator.getNumber()) == elevatorSystem.getTarget(elevator.getNumber())
+								&& elevatorSystem.getElevatorDoorStatus(elevator.getNumber()) == 1) {
+							
+							if(elevator.getNextTarget() == -1) {
+								
+								if(elevatorTargetQueue.contains(elevatorSystem.getTarget(elevator.getNumber()))) {
+									int toRemove = elevatorTargetQueue.indexOf(elevatorSystem.getTarget(elevator.getNumber()));
+									elevatorTargetQueue.remove(toRemove);
+									
+									toRemove = requestTargetQueue.indexOf(elevator.getNextTarget());
+									if(toRemove != -1) {
+										requestTargetQueue.remove(toRemove);
+									}
+								}
+								
+							} else {
+								if(requestTargetQueue.contains(elevator.getNextTarget())) {
+									int toRemove = requestTargetQueue.indexOf(elevator.getNextTarget());
+									requestTargetQueue.remove(toRemove);
+								}
+								
+								if(elevatorTargetQueue.contains(elevator.getNextTarget())) {
+									int toRemove = elevatorTargetQueue.indexOf(elevator.getNextTarget());
+									elevatorTargetQueue.remove(toRemove);
+								} else {
+									elevator.removeTargetFromList();
+								}
+							}
+						}
 					}
-
-
-				/*
-				 * //check for automatic elevators for (Elevator elevator : elevators) {
-				 * System.out.println("Automatic: " + elevator.getAutomatic()); }
-				 * 
-				 */
-
+				}
 			} catch (RemoteException e) {
-				e.printStackTrace();
+				Main.pollingExecutor.shutdown();
+				Main.showConnectionLostDialog();
 			}
 		}
 	};
