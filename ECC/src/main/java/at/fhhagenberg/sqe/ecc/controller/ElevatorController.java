@@ -49,6 +49,7 @@ public class ElevatorController {
 			lbPayload.textProperty().bindBidirectional(elevator.payloadProperty, new NumberStringConverter());
 			lbSpeed.textProperty().bindBidirectional(elevator.speedProperty, new NumberStringConverter());
 			lbDoor.textProperty().bind(elevator.doorStatusProperty);
+			tbModeAutomatic.selectedProperty().bindBidirectional(elevator.automaticProperty);
 			
 			// Go to is only enabled if manual mode is selected
 			spGoTo.disableProperty().bind(tbModeManual.selectedProperty().not());
