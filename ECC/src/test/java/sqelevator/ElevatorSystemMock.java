@@ -131,6 +131,6 @@ public class ElevatorSystemMock implements IElevator {
 
 	@Override
 	public long getClockTick() throws RemoteException {
-		return 2000;
+		return (long) (Math.random() * 10000);
 	}
 }

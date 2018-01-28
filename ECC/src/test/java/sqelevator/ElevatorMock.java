@@ -1,13 +1,13 @@
 package sqelevator;
 
 public class ElevatorMock {
-	
+
 	private int targetFloor;
 	private int currentFloor;
 	private int weight;
 	private int speed;
 	private int doorStatus;
-	
+
 	public ElevatorMock(int targetFloor, int currentFloor, int weight, int speed, int doorStatus) {
 		this.setTargetFloor(targetFloor);
 		this.setCurrentFloor(currentFloor);
