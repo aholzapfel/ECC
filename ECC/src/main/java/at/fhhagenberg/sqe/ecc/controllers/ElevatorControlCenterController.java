@@ -92,14 +92,14 @@ public class ElevatorControlCenterController {
 
 					// floor button was pressed
 					if (elevatorSystem.getFloorButtonDown(i) || elevatorSystem.getFloorButtonUp(i)) {
-						
-						if(!requestTargetQueue.contains(i)) {
-							//floors to send elevator to
+
+						if (!requestTargetQueue.contains(i)) {
+							// floors to send elevator to
 							requestTargetQueue.add(i);
 						}
 					}
 
-					for(int j = 0; j < elevators.size(); j++) {
+					for (int j = 0; j < elevators.size(); j++) {
 						if (elevatorSystem.getElevatorButton(j, i)) {
 							insertIntoTargetQueue(j, i);
 						}
@@ -107,15 +107,15 @@ public class ElevatorControlCenterController {
 				}
 
 				// setting target
-				for(Elevator elevator: elevators) {
-					if(elevator.getAutomatic()) {
-						
-						//no elevator targets -> take element from floor queue
-						if(elevator.getNextTarget() == -1) {
+				for (Elevator elevator : elevators) {
+					if (elevator.getAutomatic()) {
+
+						// no elevator targets -> take element from floor queue
+						if (elevator.getNextTarget() == -1) {
 							if (!requestTargetQueue.isEmpty()) {
-								
-								for(int i = 0; i < requestTargetQueue.size(); i++) {
-									if(!elevatorTargetQueue.contains(requestTargetQueue.get(i))) {										
+
+								for (int i = 0; i < requestTargetQueue.size(); i++) {
+									if (!elevatorTargetQueue.contains(requestTargetQueue.get(i))) {
 										elevator.insertTarget(-1, requestTargetQueue.get(i));
 										elevatorTargetQueue.add(requestTargetQueue.get(i));
 										elevatorSystem.setTarget(elevator.getNumber(), elevator.getNextTarget());
@@ -128,30 +128,31 @@ public class ElevatorControlCenterController {
 								elevatorSystem.setTarget(elevator.getNumber(), elevator.getNextTarget());
 							}
 						}
-						
-						
-						if (elevatorSystem.getElevatorFloor(elevator.getNumber()) == elevatorSystem.getTarget(elevator.getNumber())
+
+						if (elevatorSystem.getElevatorFloor(elevator.getNumber()) == elevatorSystem
+								.getTarget(elevator.getNumber())
 								&& elevatorSystem.getElevatorDoorStatus(elevator.getNumber()) == 1) {
-							
-							if(elevator.getNextTarget() == -1) {
-								
-								if(elevatorTargetQueue.contains(elevatorSystem.getTarget(elevator.getNumber()))) {
-									int toRemove = elevatorTargetQueue.indexOf(elevatorSystem.getTarget(elevator.getNumber()));
+
+							if (elevator.getNextTarget() == -1) {
+
+								if (elevatorTargetQueue.contains(elevatorSystem.getTarget(elevator.getNumber()))) {
+									int toRemove = elevatorTargetQueue
+											.indexOf(elevatorSystem.getTarget(elevator.getNumber()));
 									elevatorTargetQueue.remove(toRemove);
-									
+
 									toRemove = requestTargetQueue.indexOf(elevator.getNextTarget());
-									if(toRemove != -1) {
+									if (toRemove != -1) {
 										requestTargetQueue.remove(toRemove);
 									}
 								}
-								
+
 							} else {
-								if(requestTargetQueue.contains(elevator.getNextTarget())) {
+								if (requestTargetQueue.contains(elevator.getNextTarget())) {
 									int toRemove = requestTargetQueue.indexOf(elevator.getNextTarget());
 									requestTargetQueue.remove(toRemove);
 								}
-								
-								if(elevatorTargetQueue.contains(elevator.getNextTarget())) {
+
+								if (elevatorTargetQueue.contains(elevator.getNextTarget())) {
 									int toRemove = elevatorTargetQueue.indexOf(elevator.getNextTarget());
 									elevatorTargetQueue.remove(toRemove);
 								} else {
@@ -174,36 +175,40 @@ public class ElevatorControlCenterController {
 		int payload = elevatorSystem.getElevatorWeight(number);
 		int speed = elevatorSystem.getElevatorSpeed(number);
 		int doorStatus = elevatorSystem.getElevatorDoorStatus(number);
+		int currentFloor = elevatorSystem.getElevatorPosition(number);
 
 		elevator.setPayload(payload);
 		elevator.setSpeed(speed);
 		elevator.setDoorStatus(doorStatus);
+		elevator.setCurrentFloor(currentFloor);
 
 		return elevator;
 	}
 
 	private void insertIntoTargetQueue(int elevatorNum, int target) throws RemoteException {
 
-		if( elevators.get(elevatorNum).getNextTarget() != -1) {
+		if (elevators.get(elevatorNum).getNextTarget() != -1) {
 			// elevator goes down
 			if (elevatorSystem.getElevatorFloor(elevatorNum) > elevators.get(elevatorNum).getNextTarget()) {
 
 				// requested floor is between target and current position -> stop on the way
-				if (target < elevatorSystem.getElevatorFloor(elevatorNum) && target > elevators.get(elevatorNum).getNextTarget()) {
+				if (target < elevatorSystem.getElevatorFloor(elevatorNum)
+						&& target > elevators.get(elevatorNum).getNextTarget()) {
 					elevators.get(elevatorNum).insertTarget(0, target);
-					//targetQueue.add(0, target);
+					// targetQueue.add(0, target);
 				} else {
-					//giving index -1 appends the target as last element
+					// giving index -1 appends the target as last element
 					elevators.get(elevatorNum).insertTarget(-1, target);
 				}
 
 				// elevator goes up
 			} else {
 				// requested floor is between target and current position -> stop on the way
-				if (target > elevatorSystem.getElevatorFloor(elevatorNum) && target < elevators.get(elevatorNum).getNextTarget()) {
+				if (target > elevatorSystem.getElevatorFloor(elevatorNum)
+						&& target < elevators.get(elevatorNum).getNextTarget()) {
 					elevators.get(elevatorNum).insertTarget(0, target);
 				} else {
-					//giving index -1 appends the target as last element
+					// giving index -1 appends the target as last element
 					elevators.get(elevatorNum).insertTarget(-1, target);
 				}
 			}

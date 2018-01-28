@@ -16,6 +16,7 @@ public class Elevator {
 	public IntegerProperty numberProperty;
 	public IntegerProperty payloadProperty;
 	public IntegerProperty speedProperty;
+	public IntegerProperty currentFloorProperty;
 	public StringProperty doorStatusProperty;
 	public BooleanProperty automaticProperty;
 
@@ -25,8 +26,10 @@ public class Elevator {
 		this.numberProperty = new SimpleIntegerProperty(number);
 		this.payloadProperty = new SimpleIntegerProperty(0);
 		this.speedProperty = new SimpleIntegerProperty(0);
+		this.currentFloorProperty = new SimpleIntegerProperty(0);
 		this.doorStatusProperty = new SimpleStringProperty("Closed");
 		automaticProperty = new SimpleBooleanProperty(false);
+
 	}
 
 	public int getNumber() {
@@ -113,5 +116,10 @@ public class Elevator {
 		}
 
 		targets.addAll(0, targetsInBetween);
+	}
+
+	public void setCurrentFloor(int currentFloor) {
+		currentFloorProperty.set(currentFloor + 1);
+
 	}
 }

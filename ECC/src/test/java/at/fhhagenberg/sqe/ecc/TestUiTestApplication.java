@@ -1,6 +1,7 @@
 package at.fhhagenberg.sqe.ecc;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.rmi.RemoteException;
 
@@ -17,12 +18,13 @@ public class TestUiTestApplication {
 	@Before
 	public void setUp() throws Exception {
 		args = null;
+		TestApplication.main(null);
 	}
 
 	@Test
 	public void test() throws RemoteException {
 		System.out.println("hie");
-		TestApplication.main(args);
+
 		System.out.println("hi");
 		ElevatorSystemMock testMock = new ElevatorSystemMock(4, 1);
 		assertEquals(4, TestApplication.getElevatorSystemMock().getElevatorNum());
@@ -30,4 +32,9 @@ public class TestUiTestApplication {
 		System.exit(0);
 	}
 
+	@Test
+	public void testUI() throws RemoteException {
+		fail();
+
+	}
 }
