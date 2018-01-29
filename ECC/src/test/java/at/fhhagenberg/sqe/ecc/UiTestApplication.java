@@ -7,8 +7,8 @@ import sqelevator.IElevator;
 
 public class UiTestApplication extends Application {
 
-	private static int NUMBER_OF_FLOORS;
-	private static int NUMBER_OF_ELEVATORS;
+	private int NUMBER_OF_FLOORS;
+	private int NUMBER_OF_ELEVATORS;
 
 	private IElevator elevatorSystem;
 
