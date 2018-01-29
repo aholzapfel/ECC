@@ -11,16 +11,27 @@ import org.testfx.matcher.control.LabeledMatchers;
 
 import javafx.scene.input.MouseButton;
 
-public class TestFXUI {
+public class TestFXUITest {
 	FxRobot robot;
 
 	@Before
 	public void setup() throws TimeoutException {
 		FxToolkit.registerPrimaryStage();
-		FxToolkit.setupApplication(UiTestApplication.class);
+		FxToolkit.setupApplication(() -> new UiTestApplication(4, 1));
 
 		robot = new FxRobot();
 	}
+
+	// @Test
+	// public void testConnectAlert() throws TimeoutException {
+	// FxToolkit.setupApplication(() -> new UiTestApplicationConnect(3, 1));
+	// robot.clickOn(".button");
+	// robot.point("OK");
+	// System.out.println("hi");
+	// robot.clickOn("OK");
+	// robot.moveBy(50, 50);
+	// Main.showConnectionLostDialog();
+	// }
 
 	@Test
 	public void testManualMode() {
@@ -28,6 +39,7 @@ public class TestFXUI {
 		robot.clickOn("#tbModeManual");
 		FxAssert.verifyThat("#tbModeManual", LabeledMatchers.hasText("Manual"));
 		robot.clickOn("#btGoTo");
+
 		FxAssert.verifyThat("#lbCurrentFloor", LabeledMatchers.hasText("1"));
 	}
 
@@ -72,6 +84,13 @@ public class TestFXUI {
 	public void testAutomaticMode() {
 		robot.clickOn("#tbModeAutomatic");
 		FxAssert.verifyThat("#tbModeAutomatic", LabeledMatchers.hasText("Automatic"));
+		robot.clickOn("#tbModeManual");
+	}
 
+	@Test
+	public void testLabels() {
+		FxAssert.verifyThat("#lbPayload", LabeledMatchers.hasText("100"));
+		FxAssert.verifyThat("#lbSpeed", LabeledMatchers.hasText("2"));
+		FxAssert.verifyThat("#lbDoor", LabeledMatchers.hasText("Open"));
 	}
 }

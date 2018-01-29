@@ -7,10 +7,15 @@ import sqelevator.IElevator;
 
 public class UiTestApplication extends Application {
 
-	private static int NUMBER_OF_FLOORS = 4;
-	private static int NUMBER_OF_ELEVATORS = 1;
+	private static int NUMBER_OF_FLOORS;
+	private static int NUMBER_OF_ELEVATORS;
 
-	private static IElevator elevatorSystem;
+	private IElevator elevatorSystem;
+
+	public UiTestApplication(int floornumber, int elevatornumber) {
+		NUMBER_OF_ELEVATORS = elevatornumber;
+		NUMBER_OF_FLOORS = floornumber;
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -23,7 +28,7 @@ public class UiTestApplication extends Application {
 		Application.launch(args);
 	}
 
-	public static IElevator getElevatorSystemMock() {
-		return elevatorSystem;
+	public IElevator getElevatorSystemMock() {
+		return this.elevatorSystem;
 	}
 }

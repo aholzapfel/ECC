@@ -8,12 +8,13 @@ public class ElevatorSystemMock implements IElevator {
 
 	static List<ElevatorMock> elevators;
 
-	private static int numberOfFloors;
-	private static int numberOfElevators;
+	private int numberOfFloors;
+	private int numberOfElevators;
+	private boolean DoorUp = true;
 
 	public ElevatorSystemMock(int numberOfFloors, int numberOfElevators) {
-		ElevatorSystemMock.numberOfFloors = numberOfFloors;
-		ElevatorSystemMock.numberOfElevators = numberOfElevators;
+		this.numberOfFloors = numberOfFloors;
+		this.numberOfElevators = numberOfElevators;
 
 		initElevatorMock();
 	}
@@ -28,20 +29,17 @@ public class ElevatorSystemMock implements IElevator {
 
 	@Override
 	public int getCommittedDirection(int elevatorNumber) throws RemoteException {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int getElevatorAccel(int elevatorNumber) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+		return 5;
 	}
 
 	@Override
 	public boolean getElevatorButton(int elevatorNumber, int floor) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -82,12 +80,16 @@ public class ElevatorSystemMock implements IElevator {
 
 	@Override
 	public boolean getFloorButtonDown(int floor) throws RemoteException {
-		return Math.random() < 0.5;
+		if (getElevatorFloor(0) == floor)
+			return false;
+		return true;
 	}
 
 	@Override
 	public boolean getFloorButtonUp(int floor) throws RemoteException {
-		return Math.random() < 0.5;
+		if (getElevatorFloor(0) == floor)
+			DoorUp = false;
+		return true;
 	}
 
 	@Override
