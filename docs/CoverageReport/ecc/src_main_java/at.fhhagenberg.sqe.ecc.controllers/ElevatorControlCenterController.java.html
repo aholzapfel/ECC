@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ElevatorControlCenterController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (8) (31.01.2018 08:39:32)</a> &gt; <a href="../../index.html" class="el_group">ecc</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">at.fhhagenberg.sqe.ecc.controllers</a> &gt; <span class="el_source">ElevatorControlCenterController.java</span></div><h1>ElevatorControlCenterController.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package at.fhhagenberg.sqe.ecc.controllers;</span>
+
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
+
+import at.fhhagenberg.sqe.ecc.Main;
+import at.fhhagenberg.sqe.ecc.viewmodels.Elevator;
+import at.fhhagenberg.sqe.ecc.viewmodels.Floor;
+import at.fhhagenberg.sqe.ecc.views.ElevatorsListViewCell;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.util.Callback;
+import sqelevator.IElevator;
+
+<span class="fc" id="L20">public class ElevatorControlCenterController {</span>
+
+	@FXML
+	private ListView&lt;Floor&gt; floors;
+	@FXML
+	private FloorsController floorsController;
+
+	@FXML
+	private ListView&lt;Elevator&gt; lvElevators;
+
+<span class="fc" id="L30">	protected List&lt;Elevator&gt; elevators = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L31">	protected ListProperty&lt;Elevator&gt; listPropertyElevators = new SimpleListProperty&lt;&gt;();</span>
+
+<span class="fc" id="L33">	private List&lt;ElevatorsListViewCell&gt; cells = new ArrayList&lt;&gt;();</span>
+
+	private IElevator elevatorSystem;
+	private long clockTime;
+
+<span class="fc" id="L38">	private List&lt;Integer&gt; requestTargetQueue = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L39">	private List&lt;Integer&gt; elevatorTargetQueue = new ArrayList&lt;&gt;();</span>
+
+	public void init(IElevator elevatorSystem) {
+		try {
+<span class="fc" id="L43">			this.elevatorSystem = elevatorSystem;</span>
+
+<span class="fc" id="L45">			floorsController.init(elevatorSystem);</span>
+
+<span class="fc bfc" id="L47" title="All 2 branches covered.">			for (int i = 0; i &lt;= elevatorSystem.getElevatorNum() - 1; i++) {</span>
+<span class="fc" id="L48">				elevators.add(initElevatorFromSystem(new Elevator(i)));</span>
+			}
+
+<span class="fc" id="L51">			lvElevators.itemsProperty().bind(listPropertyElevators);</span>
+<span class="fc" id="L52">			lvElevators.setCellFactory(new Callback&lt;ListView&lt;Elevator&gt;, ListCell&lt;Elevator&gt;&gt;() {</span>
+
+				@Override
+				public ListCell&lt;Elevator&gt; call(ListView&lt;Elevator&gt; param) {
+<span class="fc" id="L56">					ElevatorsListViewCell cell = new ElevatorsListViewCell(elevatorSystem);</span>
+<span class="fc" id="L57">					cells.add(cell);</span>
+<span class="fc" id="L58">					return cell;</span>
+				}
+			});
+
+<span class="fc" id="L62">			listPropertyElevators.set(FXCollections.observableArrayList(elevators));</span>
+<span class="pc" id="L63">		} catch (RemoteException e) {</span>
+<span class="nc" id="L64">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L66">	}</span>
+
+<span class="fc" id="L68">	public Runnable updateRunnable = new Runnable() {</span>
+		public void run() {
+
+			try {
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">				if (clockTime != elevatorSystem.getClockTick()) {</span>
+					// Go throw all elevators and reload their data from elevator system
+					// Refreshes GUI automatically through binding
+<span class="fc bfc" id="L75" title="All 2 branches covered.">					for (Elevator elevator : elevators) {</span>
+<span class="fc" id="L76">						initElevatorFromSystem(elevator);</span>
+					}
+
+					// Refresh floor list
+<span class="fc" id="L80">					floorsController.refreshFloors();</span>
+
+					// Refresh elevator floor lists
+<span class="fc bfc" id="L83" title="All 2 branches covered.">					for (ElevatorsListViewCell cell : cells) {</span>
+<span class="fc" id="L84">						cell.refreshFloors();</span>
+					}
+				}
+
+<span class="fc" id="L88">				clockTime = elevatorSystem.getClockTick();</span>
+
+				// check if new targets were pressed, elevators or floors
+<span class="fc bfc" id="L91" title="All 2 branches covered.">				for (int i = 0; i &lt; elevatorSystem.getFloorNum(); i++) {</span>
+
+					// floor button was pressed
+<span class="pc bpc" id="L94" title="1 of 4 branches missed.">					if (elevatorSystem.getFloorButtonDown(i) || elevatorSystem.getFloorButtonUp(i)) {</span>
+
+<span class="fc bfc" id="L96" title="All 2 branches covered.">						if (!requestTargetQueue.contains(i)) {</span>
+							// floors to send elevator to
+<span class="fc" id="L98">							requestTargetQueue.add(i);</span>
+						}
+					}
+
+<span class="fc bfc" id="L102" title="All 2 branches covered.">					for (int j = 0; j &lt; elevators.size(); j++) {</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">						if (elevatorSystem.getElevatorButton(j, i)) {</span>
+<span class="fc" id="L104">							insertIntoTargetQueue(j, i);</span>
+						}
+					}
+				}
+
+				// setting target
+<span class="fc bfc" id="L110" title="All 2 branches covered.">				for (Elevator elevator : elevators) {</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">					if (elevator.getAutomatic()) {</span>
+
+						// no elevator targets -&gt; take element from floor queue
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">						if (elevator.getNextTarget() == -1) {</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">							if (!requestTargetQueue.isEmpty()) {</span>
+
+<span class="nc bnc" id="L117" title="All 2 branches missed.">								for (int i = 0; i &lt; requestTargetQueue.size(); i++) {</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">									if (!elevatorTargetQueue.contains(requestTargetQueue.get(i))) {</span>
+<span class="nc" id="L119">										elevator.insertTarget(-1, requestTargetQueue.get(i));</span>
+<span class="nc" id="L120">										elevatorTargetQueue.add(requestTargetQueue.get(i));</span>
+<span class="nc" id="L121">										elevatorSystem.setTarget(elevator.getNumber(), elevator.getNextTarget());</span>
+<span class="nc" id="L122">										break;</span>
+									}
+								}
+							}
+<span class="nc" id="L126">						} else {</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">							if (elevatorSystem.getTarget(elevator.getNumber()) != elevator.getNextTarget()) {</span>
+<span class="fc" id="L128">								elevatorSystem.setTarget(elevator.getNumber(), elevator.getNextTarget());</span>
+							}
+						}
+
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">						if (elevatorSystem.getElevatorFloor(elevator.getNumber()) == elevatorSystem</span>
+<span class="fc" id="L133">								.getTarget(elevator.getNumber())</span>
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">								&amp;&amp; elevatorSystem.getElevatorDoorStatus(elevator.getNumber()) == 1) {</span>
+
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">							if (elevator.getNextTarget() == -1) {</span>
+
+<span class="nc bnc" id="L138" title="All 2 branches missed.">								if (elevatorTargetQueue.contains(elevatorSystem.getTarget(elevator.getNumber()))) {</span>
+<span class="nc" id="L139">									int toRemove = elevatorTargetQueue</span>
+<span class="nc" id="L140">											.indexOf(elevatorSystem.getTarget(elevator.getNumber()));</span>
+<span class="nc" id="L141">									elevatorTargetQueue.remove(toRemove);</span>
+
+<span class="nc" id="L143">									toRemove = requestTargetQueue.indexOf(elevator.getNextTarget());</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">									if (toRemove != -1) {</span>
+<span class="nc" id="L145">										requestTargetQueue.remove(toRemove);</span>
+									}
+								}
+
+<span class="nc" id="L149">							} else {</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">								if (requestTargetQueue.contains(elevator.getNextTarget())) {</span>
+<span class="fc" id="L151">									int toRemove = requestTargetQueue.indexOf(elevator.getNextTarget());</span>
+<span class="fc" id="L152">									requestTargetQueue.remove(toRemove);</span>
+								}
+
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">								if (elevatorTargetQueue.contains(elevator.getNextTarget())) {</span>
+<span class="nc" id="L156">									int toRemove = elevatorTargetQueue.indexOf(elevator.getNextTarget());</span>
+<span class="nc" id="L157">									elevatorTargetQueue.remove(toRemove);</span>
+<span class="nc" id="L158">								} else {</span>
+<span class="fc" id="L159">									elevator.removeTargetFromList();</span>
+								}
+							}
+						}
+					}
+				}
+<span class="pc" id="L165">			} catch (RemoteException e) {</span>
+<span class="nc" id="L166">				Main.pollingExecutor.shutdown();</span>
+<span class="nc" id="L167">				Main.showConnectionLostDialog();</span>
+			}
+<span class="fc" id="L169">		}</span>
+	};
+
+	private Elevator initElevatorFromSystem(Elevator elevator) throws RemoteException {
+<span class="fc" id="L173">		int number = elevator.getNumber();</span>
+
+<span class="fc" id="L175">		int payload = elevatorSystem.getElevatorWeight(number);</span>
+<span class="fc" id="L176">		int speed = elevatorSystem.getElevatorSpeed(number);</span>
+<span class="fc" id="L177">		int doorStatus = elevatorSystem.getElevatorDoorStatus(number);</span>
+<span class="fc" id="L178">		int currentFloor = elevatorSystem.getElevatorPosition(number);</span>
+
+<span class="fc" id="L180">		elevator.setPayload(payload);</span>
+<span class="fc" id="L181">		elevator.setSpeed(speed);</span>
+<span class="fc" id="L182">		elevator.setDoorStatus(doorStatus);</span>
+<span class="fc" id="L183">		elevator.setCurrentFloor(currentFloor);</span>
+
+<span class="fc" id="L185">		return elevator;</span>
+	}
+
+	private void insertIntoTargetQueue(int elevatorNum, int target) throws RemoteException {
+
+<span class="fc bfc" id="L190" title="All 2 branches covered.">		if (elevators.get(elevatorNum).getNextTarget() != -1) {</span>
+			// elevator goes down
+<span class="fc bfc" id="L192" title="All 2 branches covered.">			if (elevatorSystem.getElevatorFloor(elevatorNum) &gt; elevators.get(elevatorNum).getNextTarget()) {</span>
+
+				// requested floor is between target and current position -&gt; stop on the way
+<span class="fc bfc" id="L195" title="All 2 branches covered.">				if (target &lt; elevatorSystem.getElevatorFloor(elevatorNum)</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">						&amp;&amp; target &gt; elevators.get(elevatorNum).getNextTarget()) {</span>
+<span class="fc" id="L197">					elevators.get(elevatorNum).insertTarget(0, target);</span>
+					// targetQueue.add(0, target);
+<span class="fc" id="L199">				} else {</span>
+					// giving index -1 appends the target as last element
+<span class="fc" id="L201">					elevators.get(elevatorNum).insertTarget(-1, target);</span>
+				}
+
+				// elevator goes up
+<span class="fc" id="L205">			} else {</span>
+				// requested floor is between target and current position -&gt; stop on the way
+<span class="fc bfc" id="L207" title="All 2 branches covered.">				if (target &gt; elevatorSystem.getElevatorFloor(elevatorNum)</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">						&amp;&amp; target &lt; elevators.get(elevatorNum).getNextTarget()) {</span>
+<span class="fc" id="L209">					elevators.get(elevatorNum).insertTarget(0, target);</span>
+<span class="fc" id="L210">				} else {</span>
+					// giving index -1 appends the target as last element
+<span class="fc" id="L212">					elevators.get(elevatorNum).insertTarget(-1, target);</span>
+				}
+			}
+<span class="fc" id="L215">		} else {</span>
+<span class="fc" id="L216">			elevators.get(elevatorNum).insertTarget(-1, target);</span>
+		}
+<span class="fc" id="L218">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>AllTests (8) (31.01.2018 08:39:32)</div></body></html>

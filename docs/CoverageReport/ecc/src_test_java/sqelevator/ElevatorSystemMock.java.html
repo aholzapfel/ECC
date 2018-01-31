@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ElevatorSystemMock.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (8) (31.01.2018 08:39:32)</a> &gt; <a href="../../index.html" class="el_group">ecc</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">sqelevator</a> &gt; <span class="el_source">ElevatorSystemMock.java</span></div><h1>ElevatorSystemMock.java</h1><pre class="source lang-java linenums">package sqelevator;
+
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ElevatorSystemMock implements IElevator {
+
+	static List&lt;ElevatorMock&gt; elevators;
+
+	private int numberOfFloors;
+	private int numberOfElevators;
+<span class="fc" id="L13">	private boolean DoorUp = true;</span>
+
+<span class="fc" id="L15">	public ElevatorSystemMock(int numberOfFloors, int numberOfElevators) {</span>
+<span class="fc" id="L16">		this.numberOfFloors = numberOfFloors;</span>
+<span class="fc" id="L17">		this.numberOfElevators = numberOfElevators;</span>
+
+<span class="fc" id="L19">		initElevatorMock();</span>
+<span class="fc" id="L20">	}</span>
+
+	private void initElevatorMock() {
+<span class="fc" id="L23">		elevators = new ArrayList&lt;ElevatorMock&gt;();</span>
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">		for (int i = 0; i &lt; numberOfElevators; i++) {</span>
+<span class="fc" id="L26">			elevators.add(new ElevatorMock(1, 1, 100, 2, 1));</span>
+		}
+<span class="fc" id="L28">	}</span>
+
+	@Override
+	public int getCommittedDirection(int elevatorNumber) throws RemoteException {
+<span class="fc" id="L32">		return 0;</span>
+	}
+
+	@Override
+	public int getElevatorAccel(int elevatorNumber) throws RemoteException {
+<span class="fc" id="L37">		return 5;</span>
+	}
+
+	@Override
+	public boolean getElevatorButton(int elevatorNumber, int floor) throws RemoteException {
+<span class="fc" id="L42">		return true;</span>
+	}
+
+	@Override
+	public int getElevatorDoorStatus(int elevatorNumber) throws RemoteException {
+<span class="fc" id="L47">		return elevators.get(elevatorNumber).getDoorStatus();</span>
+	}
+
+	@Override
+	public int getElevatorFloor(int elevatorNumber) throws RemoteException {
+<span class="fc" id="L52">		return elevators.get(elevatorNumber).getCurrentFloor();</span>
+	}
+
+	@Override
+	public int getElevatorNum() throws RemoteException {
+<span class="fc" id="L57">		return numberOfElevators;</span>
+	}
+
+	@Override
+	public int getElevatorPosition(int elevatorNumber) throws RemoteException {
+<span class="fc" id="L62">		return elevators.get(elevatorNumber).getCurrentFloor();</span>
+	}
+
+	@Override
+	public int getElevatorSpeed(int elevatorNumber) throws RemoteException {
+<span class="fc" id="L67">		return elevators.get(elevatorNumber).getSpeed();</span>
+	}
+
+	@Override
+	public int getElevatorWeight(int elevatorNumber) throws RemoteException {
+<span class="fc" id="L72">		return elevators.get(elevatorNumber).getWeight();</span>
+	}
+
+	@Override
+	public int getElevatorCapacity(int elevatorNumber) throws RemoteException {
+		// TODO Auto-generated method stub
+<span class="nc" id="L78">		return 0;</span>
+	}
+
+	@Override
+	public boolean getFloorButtonDown(int floor) throws RemoteException {
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		if (getElevatorFloor(0) == floor)</span>
+<span class="fc" id="L84">			return false;</span>
+<span class="fc" id="L85">		return true;</span>
+	}
+
+	@Override
+	public boolean getFloorButtonUp(int floor) throws RemoteException {
+<span class="fc bfc" id="L90" title="All 2 branches covered.">		if (getElevatorFloor(0) == floor)</span>
+<span class="fc" id="L91">			DoorUp = false;</span>
+<span class="fc" id="L92">		return true;</span>
+	}
+
+	@Override
+	public int getFloorHeight() throws RemoteException {
+		// TODO Auto-generated method stub
+<span class="nc" id="L98">		return 0;</span>
+	}
+
+	@Override
+	public int getFloorNum() throws RemoteException {
+		// TODO Auto-generated method stub
+<span class="fc" id="L104">		return numberOfFloors;</span>
+	}
+
+	@Override
+	public boolean getServicesFloors(int elevatorNumber, int floor) throws RemoteException {
+		// TODO Auto-generated method stub
+<span class="nc" id="L110">		return false;</span>
+	}
+
+	@Override
+	public int getTarget(int elevatorNumber) throws RemoteException {
+<span class="fc" id="L115">		return elevators.get(elevatorNumber).getTargetFloor();</span>
+	}
+
+	@Override
+	public void setCommittedDirection(int elevatorNumber, int direction) throws RemoteException {
+		// TODO Auto-generated method stub
+<span class="nc" id="L121">	}</span>
+
+	@Override
+	public void setServicesFloors(int elevatorNumber, int floor, boolean service) throws RemoteException {
+		// TODO Auto-generated method stub
+<span class="nc" id="L126">	}</span>
+
+	@Override
+	public void setTarget(int elevatorNumber, int target) throws RemoteException {
+<span class="fc" id="L130">		elevators.get(elevatorNumber).setTargetFloor(target);</span>
+<span class="fc" id="L131">		elevators.get(elevatorNumber).setCurrentFloor(target);</span>
+<span class="fc" id="L132">	}</span>
+
+	@Override
+	public long getClockTick() throws RemoteException {
+<span class="fc" id="L136">		return (long) (Math.random() * 10000);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>AllTests (8) (31.01.2018 08:39:32)</div></body></html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ElevatorsListViewCell.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (8) (31.01.2018 08:39:32)</a> &gt; <a href="../../index.html" class="el_group">ecc</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">at.fhhagenberg.sqe.ecc.views</a> &gt; <span class="el_source">ElevatorsListViewCell.java</span></div><h1>ElevatorsListViewCell.java</h1><pre class="source lang-java linenums">package at.fhhagenberg.sqe.ecc.views;
+
+import java.io.IOException;
+import java.net.URL;
+
+import at.fhhagenberg.sqe.ecc.Main;
+import at.fhhagenberg.sqe.ecc.controllers.ElevatorControlCenterController;
+import at.fhhagenberg.sqe.ecc.controllers.ElevatorController;
+import at.fhhagenberg.sqe.ecc.viewmodels.Elevator;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ListCell;
+import javafx.scene.layout.Pane;
+import sqelevator.IElevator;
+
+public class ElevatorsListViewCell extends ListCell&lt;Elevator&gt; {
+
+	private IElevator elevatorSystem;
+	private ElevatorController controller;
+	
+<span class="fc" id="L20">	public ElevatorsListViewCell(IElevator elevatorSystem) {</span>
+<span class="fc" id="L21">		this.elevatorSystem = elevatorSystem;</span>
+<span class="fc" id="L22">	}</span>
+
+	@Override
+	public void updateItem(Elevator elevator, boolean empty) {
+<span class="fc" id="L26">		super.updateItem(elevator, empty);</span>
+
+<span class="pc bpc" id="L28" title="1 of 4 branches missed.">        if (elevator == null || empty) {</span>
+<span class="fc" id="L29">            setGraphic(null);</span>
+<span class="fc" id="L30">        } else {</span>
+            
+        	try {
+<span class="fc" id="L33">            	URL location = Main.class.getClassLoader().getResource(&quot;layouts\\elevator.fxml&quot;);</span>
+<span class="fc" id="L34">                FXMLLoader loader = new FXMLLoader(location); </span>
+                
+                //loader.getNamespace().put(&quot;elevator&quot;, elevator);
+<span class="fc" id="L37">                Pane root = loader.load();</span>
+                
+<span class="fc" id="L39">                controller =  loader.&lt;ElevatorController&gt;getController();</span>
+<span class="fc" id="L40">    			controller.init(elevatorSystem, elevator);</span>
+                
+<span class="fc" id="L42">                setGraphic(root);</span>
+<span class="pc" id="L43">            } catch (IOException e) {</span>
+<span class="nc" id="L44">                e.printStackTrace();</span>
+<span class="nc" id="L45">                setGraphic(null);</span>
+            } 
+        }
+<span class="fc" id="L48">	}</span>
+	
+	public void refreshFloors() {
+<span class="fc bfc" id="L51" title="All 2 branches covered.">		if(controller != null) {</span>
+<span class="fc" id="L52">			controller.refreshFloors();</span>
+		}
+<span class="fc" id="L54">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>AllTests (8) (31.01.2018 08:39:32)</div></body></html>

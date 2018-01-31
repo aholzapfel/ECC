@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (8) (31.01.2018 08:39:32)</a> &gt; <a href="../../index.html" class="el_group">ecc</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">at.fhhagenberg.sqe.ecc</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package at.fhhagenberg.sqe.ecc;</span>
+
+import java.net.URL;
+import java.rmi.Naming;
+import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import at.fhhagenberg.sqe.ecc.controllers.ElevatorControlCenterController;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import sqelevator.IElevator;
+
+public class Main extends Application {
+
+	private static final int WINDOW_HEIGHT = 800;
+	private static final int WINDOW_WIDTH = 500;
+
+	private IElevator elevatorSystem;
+	private ElevatorControlCenterController controller;
+
+	public static ScheduledExecutorService pollingExecutor;
+
+<span class="nc" id="L34">	public Main() {</span>
+<span class="nc" id="L35">		connect();</span>
+<span class="nc" id="L36">	}</span>
+
+<span class="fc" id="L38">	public Main(IElevator elevatorSystem) {</span>
+<span class="fc" id="L39">		this.elevatorSystem = elevatorSystem;</span>
+<span class="fc" id="L40">	}</span>
+
+	@Override
+	public void start(Stage primaryStage) {
+		try {
+<span class="fc" id="L45">			URL location = Main.class.getClassLoader().getResource(&quot;layouts\\elevator_control_center.fxml&quot;);</span>
+
+<span class="fc" id="L47">			FXMLLoader loader = new FXMLLoader(location);</span>
+<span class="fc" id="L48">			Pane root = loader.load();</span>
+
+<span class="fc" id="L50">			controller = loader.&lt;ElevatorControlCenterController&gt;getController();</span>
+<span class="fc" id="L51">			controller.init(elevatorSystem);</span>
+
+<span class="fc" id="L53">			Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);</span>
+<span class="fc" id="L54">			scene.getStylesheets().add(getClass().getClassLoader().getResource(&quot;application.css&quot;).toExternalForm());</span>
+
+<span class="fc" id="L56">			primaryStage.setTitle(&quot;Elevator Control Center&quot;);</span>
+<span class="fc" id="L57">			primaryStage.setMinWidth(WINDOW_WIDTH);</span>
+<span class="fc" id="L58">			primaryStage.setMinHeight(WINDOW_HEIGHT);</span>
+<span class="fc" id="L59">			primaryStage.setScene(scene);</span>
+<span class="fc" id="L60">			primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+				public void handle(WindowEvent we) {
+<span class="nc" id="L62">					System.exit(0);</span>
+<span class="nc" id="L63">				}</span>
+			});
+<span class="fc" id="L65">			primaryStage.show();</span>
+
+<span class="fc" id="L67">			startPolling();</span>
+<span class="pc" id="L68">		} catch (Exception e) {</span>
+<span class="nc" id="L69">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L71">	}</span>
+
+	private void connect() {
+		try {
+<span class="nc" id="L75">			elevatorSystem = (IElevator) Naming.lookup(&quot;rmi://localhost/ElevatorSim&quot;);</span>
+<span class="nc" id="L76">		} catch (Exception e) {</span>
+<span class="nc" id="L77">			showConnectingFailedDialog();</span>
+		}
+<span class="nc" id="L79">	}</span>
+
+	private void showConnectingFailedDialog() {
+<span class="nc" id="L82">		Alert alert = new Alert(AlertType.CONFIRMATION);</span>
+
+<span class="nc" id="L84">		alert.setTitle(&quot;Connection failed!&quot;);</span>
+<span class="nc" id="L85">		alert.setHeaderText(&quot;The connection to the elevator simulator failed!&quot;);</span>
+<span class="nc" id="L86">		alert.setContentText(&quot;Do you want to retry?&quot;);</span>
+
+<span class="nc" id="L88">		Optional&lt;ButtonType&gt; result = alert.showAndWait();</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">		if (result.get() == ButtonType.OK) {</span>
+<span class="nc" id="L90">			connect();</span>
+<span class="nc" id="L91">		} else {</span>
+<span class="nc" id="L92">			System.exit(0);</span>
+		}
+<span class="nc" id="L94">	}</span>
+
+	public static void showConnectionLostDialog() {
+<span class="nc" id="L97">		Alert alert = new Alert(AlertType.INFORMATION);</span>
+
+<span class="nc" id="L99">		alert.setTitle(&quot;Connection lost!&quot;);</span>
+<span class="nc" id="L100">		alert.setHeaderText(&quot;The connection to the elevator simulator got lost!&quot;);</span>
+<span class="nc" id="L101">		alert.setContentText(&quot;The application will be closed...&quot;);</span>
+
+<span class="nc" id="L103">		alert.showAndWait();</span>
+
+<span class="nc" id="L105">		System.exit(0);</span>
+<span class="nc" id="L106">	}</span>
+
+	private void startPolling() {
+<span class="fc" id="L109">		Runnable pollingRunnable = new Runnable() {</span>
+			public void run() {
+<span class="fc" id="L111">				Platform.runLater(controller.updateRunnable);</span>
+<span class="fc" id="L112">			}</span>
+		};
+
+<span class="fc" id="L115">		pollingExecutor = Executors.newScheduledThreadPool(1);</span>
+<span class="fc" id="L116">		pollingExecutor.scheduleAtFixedRate(pollingRunnable, 0, 100, TimeUnit.MILLISECONDS);</span>
+<span class="fc" id="L117">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>AllTests (8) (31.01.2018 08:39:32)</div></body></html>

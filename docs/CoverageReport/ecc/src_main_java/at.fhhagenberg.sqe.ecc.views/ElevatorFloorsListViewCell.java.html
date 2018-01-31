@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ElevatorFloorsListViewCell.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (8) (31.01.2018 08:39:32)</a> &gt; <a href="../../index.html" class="el_group">ecc</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">at.fhhagenberg.sqe.ecc.views</a> &gt; <span class="el_source">ElevatorFloorsListViewCell.java</span></div><h1>ElevatorFloorsListViewCell.java</h1><pre class="source lang-java linenums">package at.fhhagenberg.sqe.ecc.views;
+
+import java.rmi.RemoteException;
+
+import at.fhhagenberg.sqe.ecc.Main;
+import at.fhhagenberg.sqe.ecc.viewmodels.Floor;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.ListCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import sqelevator.ElevatorSystemMock;
+import sqelevator.IElevator;
+
+public class ElevatorFloorsListViewCell extends ListCell&lt;Floor&gt; {
+
+	private IElevator elevatorSystem;
+	private int elevatorNumber;
+	
+<span class="fc" id="L21">	public ElevatorFloorsListViewCell(IElevator elevatorSystem, int elevatorNumber) {</span>
+<span class="fc" id="L22">		this.elevatorSystem = elevatorSystem;</span>
+<span class="fc" id="L23">		this.elevatorNumber = elevatorNumber;</span>
+<span class="fc" id="L24">	}</span>
+	
+	@Override
+	public void updateItem(Floor floor, boolean empty) {
+<span class="fc" id="L28">		super.updateItem(floor, empty);</span>
+		
+<span class="fc bfc" id="L30" title="All 2 branches covered.">		if (empty) {</span>
+<span class="fc" id="L31">			setText(null);</span>
+<span class="fc" id="L32">			setGraphic(null);</span>
+<span class="fc" id="L33">		} else {	</span>
+			 try {
+<span class="fc" id="L35">				setText(null);</span>
+				 
+	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
+<span class="fc" id="L38">	            HBox root = new HBox();</span>
+<span class="fc" id="L39">	            root.setPadding(new Insets(0, 10, 0, 10));</span>
+<span class="fc" id="L40">	            root.setAlignment(Pos.CENTER);</span>
+	 
+	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
+	            Image img;
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">	            if(elevatorSystem.getElevatorButton(elevatorNumber, floor.getNumber())) {</span>
+<span class="fc" id="L45">	            	img = new Image(Main.class.getClassLoader().getResource(&quot;images\\lamp_on.png&quot;).toString());</span>
+<span class="fc" id="L46">	            } else {</span>
+<span class="nc" id="L47">	            	img = new Image(Main.class.getClassLoader().getResource(&quot;images\\lamp_off.png&quot;).toString());</span>
+	            }
+	            
+<span class="fc" id="L50">	            Image floorStatus = null;</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">				if(elevatorSystem.getElevatorFloor(elevatorNumber) == floor.getNumber()) {</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">					if(elevatorSystem.getTarget(elevatorNumber) == floor.getNumber()) {</span>
+<span class="fc" id="L53">						floorStatus = new Image(Main.class.getClassLoader().getResource(&quot;images\\elevator_arrived.png&quot;).toString());</span>
+<span class="fc" id="L54">					}</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">					else if(elevatorSystem.getTarget(elevatorNumber) &lt; floor.getNumber()) {</span>
+<span class="nc" id="L56">					    floorStatus = new Image(Main.class.getClassLoader().getResource(&quot;images\\elevator_moving_down.png&quot;).toString());</span>
+<span class="nc" id="L57">					}</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">				    else if(elevatorSystem.getTarget(elevatorNumber) &gt; floor.getNumber()) {</span>
+<span class="nc" id="L59">				    	floorStatus = new Image(Main.class.getClassLoader().getResource(&quot;images\\elevator_moving_up.png&quot;).toString());</span>
+				    }
+<span class="nc" id="L61">				} else {</span>
+<span class="fc" id="L62">			    	floorStatus = new Image(Main.class.getClassLoader().getResource(&quot;images\\elevator_not_moving.png&quot;).toString());</span>
+			    }
+				
+<span class="fc" id="L65">	            ImageView elevatorFloorStatus = new ImageView(floorStatus);</span>
+<span class="fc" id="L66">	            elevatorFloorStatus.setFitHeight(25);</span>
+<span class="fc" id="L67">	            elevatorFloorStatus.setFitWidth(25);</span>
+<span class="fc" id="L68">	            root.getChildren().addAll(elevatorFloorStatus);</span>
+	            
+<span class="fc" id="L70">	            ImageView lamp = new ImageView(img);</span>
+<span class="fc" id="L71">	            lamp.setFitHeight(25);</span>
+<span class="fc" id="L72">	            lamp.setFitWidth(25);</span>
+<span class="fc" id="L73">	            root.getChildren().addAll(lamp);</span>
+	 
+<span class="fc" id="L75">	            setGraphic(root);</span>
+	            
+<span class="pc" id="L77">			} catch (RemoteException e) {</span>
+<span class="nc" id="L78">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L81">	}</span>
+
+	public int getElevatorNumber() {
+<span class="nc" id="L84">		return elevatorNumber;</span>
+	}
+
+	public void setElevatorNumber(int elevatorNumber) {
+<span class="nc" id="L88">		this.elevatorNumber = elevatorNumber;</span>
+<span class="nc" id="L89">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>AllTests (8) (31.01.2018 08:39:32)</div></body></html>

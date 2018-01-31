@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Elevator.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (8) (31.01.2018 08:39:32)</a> &gt; <a href="../../index.html" class="el_group">ecc</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">at.fhhagenberg.sqe.ecc.viewmodels</a> &gt; <span class="el_source">Elevator.java</span></div><h1>Elevator.java</h1><pre class="source lang-java linenums">package at.fhhagenberg.sqe.ecc.viewmodels;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+public class Elevator {
+
+	public IntegerProperty numberProperty;
+	public IntegerProperty payloadProperty;
+	public IntegerProperty speedProperty;
+	public IntegerProperty currentFloorProperty;
+	public StringProperty doorStatusProperty;
+	public BooleanProperty automaticProperty;
+
+<span class="fc" id="L23">	private List&lt;Integer&gt; targets = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L25">	public Elevator(int number) {</span>
+<span class="fc" id="L26">		this.numberProperty = new SimpleIntegerProperty(number);</span>
+<span class="fc" id="L27">		this.payloadProperty = new SimpleIntegerProperty(0);</span>
+<span class="fc" id="L28">		this.speedProperty = new SimpleIntegerProperty(0);</span>
+<span class="fc" id="L29">		this.currentFloorProperty = new SimpleIntegerProperty(0);</span>
+<span class="fc" id="L30">		this.doorStatusProperty = new SimpleStringProperty(&quot;Closed&quot;);</span>
+<span class="fc" id="L31">		automaticProperty = new SimpleBooleanProperty(false);</span>
+
+<span class="fc" id="L33">	}</span>
+
+	public int getNumber() {
+<span class="fc" id="L36">		return numberProperty.get();</span>
+	}
+
+	public void setPayload(int payload) {
+<span class="fc" id="L40">		payloadProperty.set(payload);</span>
+<span class="fc" id="L41">	}</span>
+
+	public void setSpeed(int speed) {
+<span class="fc" id="L44">		speedProperty.set(speed);</span>
+<span class="fc" id="L45">	}</span>
+
+	public void setDoorStatus(int doorStatus) {
+<span class="fc" id="L48">		String doorStatusStr = &quot;&quot;;</span>
+
+<span class="pc bpc" id="L50" title="2 of 3 branches missed.">		switch (doorStatus) {</span>
+		case 1:
+<span class="fc" id="L52">			doorStatusStr = &quot;Open&quot;;</span>
+<span class="fc" id="L53">			break;</span>
+		case 2:
+<span class="nc" id="L55">			doorStatusStr = &quot;Closed&quot;;</span>
+		}
+
+<span class="fc" id="L58">		doorStatusProperty.set(doorStatusStr);</span>
+<span class="fc" id="L59">	}</span>
+
+	public void getAutomatic(boolean isAutomatic) {
+<span class="nc" id="L62">		automaticProperty.set(isAutomatic);</span>
+<span class="nc" id="L63">	}</span>
+
+	public boolean getAutomatic() {
+<span class="fc" id="L66">		return automaticProperty.get();</span>
+	}
+
+	public void insertTarget(int index, int target) {
+<span class="fc bfc" id="L70" title="All 2 branches covered.">		if (!targets.contains(target)) {</span>
+<span class="pc bpc" id="L71" title="1 of 4 branches missed.">			if (targets.isEmpty() || index == -1) {</span>
+<span class="fc" id="L72">				targets.add(target);</span>
+<span class="fc" id="L73">			} else {</span>
+<span class="nc" id="L74">				targets.add(index, target);</span>
+			}
+		}
+<span class="fc" id="L77">	}</span>
+
+	public int getNextTarget() {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		if (!targets.isEmpty()) {</span>
+<span class="fc" id="L81">			return targets.get(0);</span>
+		} else {
+<span class="fc" id="L83">			return -1;</span>
+		}
+	}
+
+	public void removeTargetFromList() {
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">		if (!targets.isEmpty()) {</span>
+<span class="fc" id="L89">			int currentFloor = targets.get(0);</span>
+<span class="fc" id="L90">			targets.remove(0);</span>
+
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">			if (!targets.isEmpty()) {</span>
+<span class="fc" id="L93">				refactor(currentFloor, targets.get(0));</span>
+			}
+		}
+
+<span class="fc" id="L97">	}</span>
+
+	private void refactor(int currentFloor, int nextFloor) {
+<span class="fc" id="L100">		List&lt;Integer&gt; targetsInBetween = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L102" title="All 2 branches covered.">		for (int i = 0; i &lt; targets.size(); i++) {</span>
+<span class="fc bfc" id="L103" title="All 6 branches covered.">			if (currentFloor &lt; nextFloor &amp;&amp; targets.get(i) &gt; currentFloor &amp;&amp; targets.get(i) &lt; nextFloor) {</span>
+<span class="fc" id="L104">				targetsInBetween.add(targets.get(i));</span>
+<span class="fc" id="L105">				targets.remove(i);</span>
+<span class="fc bfc" id="L106" title="All 6 branches covered.">			} else if (currentFloor &gt; nextFloor &amp;&amp; targets.get(i) &lt; currentFloor &amp;&amp; targets.get(i) &gt; nextFloor) {</span>
+<span class="fc" id="L107">				targetsInBetween.add(targets.get(i));</span>
+<span class="fc" id="L108">				targets.remove(i);</span>
+			}
+		}
+
+<span class="fc bfc" id="L112" title="All 2 branches covered.">		if (currentFloor &lt; nextFloor) {</span>
+<span class="fc" id="L113">			Collections.sort(targetsInBetween);</span>
+<span class="fc" id="L114">		} else {</span>
+<span class="fc" id="L115">			Collections.sort(targetsInBetween, Collections.reverseOrder());</span>
+		}
+
+<span class="fc" id="L118">		targets.addAll(0, targetsInBetween);</span>
+<span class="fc" id="L119">	}</span>
+
+	public void setCurrentFloor(int currentFloor) {
+<span class="fc" id="L122">		currentFloorProperty.set(currentFloor + 1);</span>
+
+<span class="fc" id="L124">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>AllTests (8) (31.01.2018 08:39:32)</div></body></html>

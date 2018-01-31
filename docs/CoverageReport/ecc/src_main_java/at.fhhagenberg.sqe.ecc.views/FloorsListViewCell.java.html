@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FloorsListViewCell.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (8) (31.01.2018 08:39:32)</a> &gt; <a href="../../index.html" class="el_group">ecc</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">at.fhhagenberg.sqe.ecc.views</a> &gt; <span class="el_source">FloorsListViewCell.java</span></div><h1>FloorsListViewCell.java</h1><pre class="source lang-java linenums">package at.fhhagenberg.sqe.ecc.views;
+
+import java.rmi.RemoteException;
+
+import at.fhhagenberg.sqe.ecc.Main;
+import at.fhhagenberg.sqe.ecc.viewmodels.Floor;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import sqelevator.IElevator;
+
+public class FloorsListViewCell extends ListCell&lt;Floor&gt; {
+	
+	private IElevator elevatorSystem;
+	
+<span class="fc" id="L22">	public FloorsListViewCell(IElevator elevatorSystem) {</span>
+<span class="fc" id="L23">		this.elevatorSystem = elevatorSystem;</span>
+<span class="fc" id="L24">	}</span>
+	
+	@Override
+	public void updateItem(Floor floor, boolean empty) {
+<span class="fc" id="L28">		super.updateItem(floor, empty);</span>
+
+<span class="fc bfc" id="L30" title="All 2 branches covered.">		if (empty) {</span>
+<span class="fc" id="L31">			setText(null);</span>
+<span class="fc" id="L32">			setGraphic(null);</span>
+<span class="fc" id="L33">		} </span>
+		else {
+			try {
+<span class="fc" id="L36">				setText(null);</span>
+				 
+	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
+<span class="fc" id="L39">	            HBox root = new HBox();</span>
+<span class="fc" id="L40">	            root.setPadding(new Insets(0, 10, 0, 10));</span>
+<span class="fc" id="L41">	            root.setAlignment(Pos.CENTER);</span>
+	 
+	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
+<span class="fc" id="L44">	            Label number = new Label(String.valueOf(floor.getNumber()+1));</span>
+<span class="fc" id="L45">	            number.setFont(Font.font(&quot;FontAwesome&quot;, FontWeight.BOLD, 16));</span>
+<span class="fc" id="L46">	            number.getStyleClass().add(&quot;cache-list-icon&quot;);</span>
+<span class="fc" id="L47">	            root.getChildren().addAll(number);</span>
+	 
+	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
+	            Image img;
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">	            if(elevatorSystem.getFloorButtonUp(floor.getNumber())) {</span>
+<span class="fc" id="L52">	            	img = new Image(Main.class.getClassLoader().getResource(&quot;images\\direction_up_pressed.png&quot;).toString());</span>
+<span class="fc" id="L53">	            } else {</span>
+<span class="nc" id="L54">	            	img = new Image(Main.class.getClassLoader().getResource(&quot;images\\direction_up.png&quot;).toString());</span>
+	            }
+<span class="fc" id="L56">	            ImageView up = new ImageView(img);</span>
+<span class="fc" id="L57">	            up.setFitHeight(25);</span>
+<span class="fc" id="L58">	            up.setFitWidth(25);</span>
+<span class="fc" id="L59">	            root.getChildren().addAll(up);</span>
+	            
+	            // DO NOT CREATE INSTANCES IN THIS METHOD, THIS IS BAD!
+<span class="fc bfc" id="L62" title="All 2 branches covered.">	            if(elevatorSystem.getFloorButtonDown(floor.getNumber())) {</span>
+<span class="fc" id="L63">	            	img = new Image(Main.class.getClassLoader().getResource(&quot;images\\direction_down_pressed.png&quot;).toString());</span>
+<span class="fc" id="L64">	            } else {</span>
+<span class="fc" id="L65">	            	img = new Image(Main.class.getClassLoader().getResource(&quot;images\\direction_down.png&quot;).toString());</span>
+	            }
+<span class="fc" id="L67">	            ImageView down = new ImageView(img);</span>
+<span class="fc" id="L68">	            down.setFitHeight(25);</span>
+<span class="fc" id="L69">	            down.setFitWidth(25);</span>
+<span class="fc" id="L70">	            root.getChildren().addAll(down);</span>
+	 
+<span class="fc" id="L72">	            setGraphic(root);</span>
+<span class="pc" id="L73">			} catch(RemoteException e) {</span>
+<span class="nc" id="L74">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L77">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>AllTests (8) (31.01.2018 08:39:32)</div></body></html>

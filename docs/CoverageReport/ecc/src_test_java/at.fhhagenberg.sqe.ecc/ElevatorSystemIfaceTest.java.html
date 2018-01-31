@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ElevatorSystemIfaceTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (8) (31.01.2018 08:39:32)</a> &gt; <a href="../../index.html" class="el_group">ecc</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">at.fhhagenberg.sqe.ecc</a> &gt; <span class="el_source">ElevatorSystemIfaceTest.java</span></div><h1>ElevatorSystemIfaceTest.java</h1><pre class="source lang-java linenums">package at.fhhagenberg.sqe.ecc;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
+import java.rmi.RemoteException;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import sqelevator.ElevatorSystemMock;
+import sqelevator.IElevator;
+
+<span class="fc" id="L14">public class ElevatorSystemIfaceTest {</span>
+
+	private IElevator elevatorSystem;
+<span class="fc" id="L17">	private final int FLOORNUMBER = 4;</span>
+<span class="fc" id="L18">	private final int ELEVATORNUMBER = 2;</span>
+
+	@Before
+	public void setUp() throws Exception {
+<span class="fc" id="L22">		elevatorSystem = new ElevatorSystemMock(FLOORNUMBER, ELEVATORNUMBER);</span>
+<span class="fc" id="L23">	}</span>
+
+	@Test
+	public void testGetTarget() throws RemoteException {
+<span class="fc" id="L27">		assertEquals(1, elevatorSystem.getTarget(0));</span>
+<span class="fc" id="L28">	}</span>
+
+	@Test
+	public void testSetTarget() throws RemoteException {
+<span class="fc" id="L32">		elevatorSystem.setTarget(0, 3);</span>
+<span class="fc" id="L33">		assertEquals(3, elevatorSystem.getTarget(0));</span>
+
+<span class="fc" id="L35">		elevatorSystem.setTarget(0, 5);</span>
+<span class="fc" id="L36">		assertEquals(5, elevatorSystem.getTarget(0));</span>
+<span class="fc" id="L37">	}</span>
+
+	@Test
+	public void testCommitedDirection() throws RemoteException {
+<span class="fc" id="L41">		assertEquals(0, elevatorSystem.getCommittedDirection(0));</span>
+<span class="fc" id="L42">		assertEquals(0, elevatorSystem.getCommittedDirection(1));</span>
+<span class="fc" id="L43">	}</span>
+
+	@Test
+	public void testAcceleration() throws RemoteException {
+<span class="fc" id="L47">		assertEquals(5, elevatorSystem.getElevatorAccel(0));</span>
+<span class="fc" id="L48">		assertEquals(5, elevatorSystem.getElevatorAccel(1));</span>
+<span class="fc" id="L49">	}</span>
+
+	@Test
+	public void testDoorStatus() throws RemoteException {
+<span class="fc" id="L53">		assertEquals(1, elevatorSystem.getElevatorDoorStatus(0));</span>
+<span class="fc" id="L54">		assertEquals(1, elevatorSystem.getElevatorDoorStatus(1));</span>
+<span class="fc" id="L55">	}</span>
+
+	@Test
+	public void testFloorNumber() throws RemoteException {
+<span class="fc" id="L59">		assertEquals(FLOORNUMBER, elevatorSystem.getFloorNum());</span>
+<span class="fc" id="L60">	}</span>
+
+	@Test
+	public void testSpeed() throws RemoteException {
+<span class="fc" id="L64">		assertEquals(2, elevatorSystem.getElevatorSpeed(0));</span>
+<span class="fc" id="L65">		assertEquals(2, elevatorSystem.getElevatorSpeed(1));</span>
+<span class="fc" id="L66">	}</span>
+
+	@Test
+	public void testWeight() throws RemoteException {
+<span class="fc" id="L70">		assertEquals(100, elevatorSystem.getElevatorWeight(0));</span>
+<span class="fc" id="L71">		assertEquals(100, elevatorSystem.getElevatorWeight(1));</span>
+<span class="fc" id="L72">	}</span>
+
+	@Test
+	public void testTime() throws RemoteException {
+<span class="fc" id="L76">		assertNotEquals(elevatorSystem.getClockTick(), elevatorSystem.getClockTick());</span>
+
+<span class="fc" id="L78">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>AllTests (8) (31.01.2018 08:39:32)</div></body></html>

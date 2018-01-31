@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UiTestApplication.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (8) (31.01.2018 08:39:32)</a> &gt; <a href="../../index.html" class="el_group">ecc</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">at.fhhagenberg.sqe.ecc</a> &gt; <span class="el_source">UiTestApplication.java</span></div><h1>UiTestApplication.java</h1><pre class="source lang-java linenums">package at.fhhagenberg.sqe.ecc;
+
+import javafx.application.Application;
+import javafx.stage.Stage;
+import sqelevator.ElevatorSystemMock;
+import sqelevator.IElevator;
+
+public class UiTestApplication extends Application {
+
+	private int NUMBER_OF_FLOORS;
+	private int NUMBER_OF_ELEVATORS;
+
+	private IElevator elevatorSystem;
+
+<span class="fc" id="L15">	public UiTestApplication(int floornumber, int elevatornumber) {</span>
+<span class="fc" id="L16">		NUMBER_OF_ELEVATORS = elevatornumber;</span>
+<span class="fc" id="L17">		NUMBER_OF_FLOORS = floornumber;</span>
+<span class="fc" id="L18">	}</span>
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+<span class="fc" id="L22">		elevatorSystem = new ElevatorSystemMock(NUMBER_OF_FLOORS, NUMBER_OF_ELEVATORS);</span>
+<span class="fc" id="L23">		final Main main = new Main(elevatorSystem);</span>
+<span class="fc" id="L24">		main.start(primaryStage);</span>
+<span class="fc" id="L25">	}</span>
+
+	public static void main(String[] args) {
+<span class="nc" id="L28">		Application.launch(args);</span>
+<span class="nc" id="L29">	}</span>
+
+	public IElevator getElevatorSystemMock() {
+<span class="nc" id="L32">		return this.elevatorSystem;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>AllTests (8) (31.01.2018 08:39:32)</div></body></html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ElevatorMock.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (8) (31.01.2018 08:39:32)</a> &gt; <a href="../../index.html" class="el_group">ecc</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">sqelevator</a> &gt; <span class="el_source">ElevatorMock.java</span></div><h1>ElevatorMock.java</h1><pre class="source lang-java linenums">package sqelevator;
+
+public class ElevatorMock {
+
+	private int targetFloor;
+	private int currentFloor;
+	private int weight;
+	private int speed;
+	private int doorStatus;
+
+<span class="fc" id="L11">	public ElevatorMock(int targetFloor, int currentFloor, int weight, int speed, int doorStatus) {</span>
+<span class="fc" id="L12">		this.setTargetFloor(targetFloor);</span>
+<span class="fc" id="L13">		this.setCurrentFloor(currentFloor);</span>
+<span class="fc" id="L14">		this.setWeight(weight);</span>
+<span class="fc" id="L15">		this.setSpeed(speed);</span>
+<span class="fc" id="L16">		this.setDoorStatus(doorStatus);</span>
+<span class="fc" id="L17">	}</span>
+
+	public int getTargetFloor() {
+<span class="fc" id="L20">		return targetFloor;</span>
+	}
+
+	public void setTargetFloor(int targetFloor) {
+<span class="fc" id="L24">		this.targetFloor = targetFloor;</span>
+<span class="fc" id="L25">	}</span>
+
+	public int getCurrentFloor() {
+<span class="fc" id="L28">		return currentFloor;</span>
+	}
+
+	public void setCurrentFloor(int currentFloor) {
+<span class="fc" id="L32">		this.currentFloor = currentFloor;</span>
+<span class="fc" id="L33">	}</span>
+
+	public int getWeight() {
+<span class="fc" id="L36">		return weight;</span>
+	}
+
+	public void setWeight(int weight) {
+<span class="fc" id="L40">		this.weight = weight;</span>
+<span class="fc" id="L41">	}</span>
+
+	public int getSpeed() {
+<span class="fc" id="L44">		return speed;</span>
+	}
+
+	public void setSpeed(int speed) {
+<span class="fc" id="L48">		this.speed = speed;</span>
+<span class="fc" id="L49">	}</span>
+
+	public int getDoorStatus() {
+<span class="fc" id="L52">		return doorStatus;</span>
+	}
+
+	public void setDoorStatus(int doorStatus) {
+<span class="fc" id="L56">		this.doorStatus = doorStatus;</span>
+<span class="fc" id="L57">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>AllTests (8) (31.01.2018 08:39:32)</div></body></html>

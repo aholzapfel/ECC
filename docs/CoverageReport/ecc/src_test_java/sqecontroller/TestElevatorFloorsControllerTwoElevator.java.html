@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TestElevatorFloorsControllerTwoElevator.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (8) (31.01.2018 08:39:32)</a> &gt; <a href="../../index.html" class="el_group">ecc</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">sqecontroller</a> &gt; <span class="el_source">TestElevatorFloorsControllerTwoElevator.java</span></div><h1>TestElevatorFloorsControllerTwoElevator.java</h1><pre class="source lang-java linenums">package sqecontroller;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import sqelevator.IElevator;
+
+//Elevator Szenario#2 : System with 15 floors and 2 Elevator
+<span class="nc" id="L16">public class TestElevatorFloorsControllerTwoElevator {</span>
+
+	private IElevator elevatorSystem;
+	private int elevatorNumber;
+
+	@Before
+	public void setUp() throws Exception {
+		try {
+<span class="nc" id="L24">			elevatorSystem = (IElevator) Naming.lookup(&quot;rmi://localhost/ElevatorSim&quot;);</span>
+<span class="nc" id="L25">		} catch (Exception e) {</span>
+<span class="nc" id="L26">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L28">	}</span>
+
+	@Test
+	public void testNumberOfFloors() throws RemoteException {
+<span class="nc bnc" id="L32" title="All 2 branches missed.">		assertTrue(elevatorSystem.getFloorNum() == 15);</span>
+<span class="nc" id="L33">	}</span>
+
+	@Test
+	public void testSetTarget1st() throws RemoteException, InterruptedException {
+<span class="nc" id="L37">		assertEquals(0, elevatorSystem.getTarget(0));</span>
+<span class="nc" id="L38">		elevatorSystem.setTarget(0, 3);</span>
+<span class="nc" id="L39">		assertEquals(3, elevatorSystem.getTarget(0));</span>
+
+<span class="nc" id="L41">		elevatorSystem.setTarget(0, 5);</span>
+<span class="nc" id="L42">		assertEquals(5, elevatorSystem.getTarget(0));</span>
+
+<span class="nc" id="L44">		elevatorSystem.setTarget(0, 9);</span>
+<span class="nc" id="L45">		assertEquals(9, elevatorSystem.getTarget(0));</span>
+
+<span class="nc" id="L47">		elevatorSystem.setTarget(0, 12);</span>
+<span class="nc" id="L48">		assertEquals(12, elevatorSystem.getTarget(0));</span>
+<span class="nc" id="L49">		elevatorSystem.setTarget(0, 0);</span>
+<span class="nc" id="L50">	}</span>
+
+	@Test
+	public void testSetTarget2nd() throws RemoteException, InterruptedException {
+<span class="nc" id="L54">		assertEquals(0, elevatorSystem.getTarget(1));</span>
+<span class="nc" id="L55">		elevatorSystem.setTarget(1, 3);</span>
+<span class="nc" id="L56">		assertEquals(3, elevatorSystem.getTarget(1));</span>
+
+<span class="nc" id="L58">		elevatorSystem.setTarget(1, 5);</span>
+<span class="nc" id="L59">		assertEquals(5, elevatorSystem.getTarget(1));</span>
+
+<span class="nc" id="L61">		elevatorSystem.setTarget(1, 9);</span>
+<span class="nc" id="L62">		assertEquals(9, elevatorSystem.getTarget(1));</span>
+
+<span class="nc" id="L64">		elevatorSystem.setTarget(1, 12);</span>
+<span class="nc" id="L65">		assertEquals(12, elevatorSystem.getTarget(1));</span>
+<span class="nc" id="L66">		elevatorSystem.setTarget(1, 0);</span>
+<span class="nc" id="L67">	}</span>
+
+	@Test
+	public void testFloorButtons() throws RemoteException, InterruptedException {
+<span class="nc" id="L71">		elevatorSystem.setTarget(1, 8);</span>
+<span class="nc" id="L72">		Thread.sleep(5000);</span>
+<span class="nc" id="L73">		elevatorSystem.setTarget(1, 0);</span>
+<span class="nc" id="L74">		Thread.sleep(5000);</span>
+<span class="nc" id="L75">		assertFalse(elevatorSystem.getFloorButtonDown(0));</span>
+
+<span class="nc" id="L77">		elevatorSystem.setTarget(1, 2);</span>
+
+<span class="nc" id="L79">		Thread.sleep(5000);</span>
+<span class="nc" id="L80">		assertFalse(elevatorSystem.getFloorButtonDown(2));</span>
+<span class="nc" id="L81">		Thread.sleep(1000);</span>
+<span class="nc" id="L82">		elevatorSystem.setTarget(1, 0);</span>
+<span class="nc" id="L83">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>AllTests (8) (31.01.2018 08:39:32)</div></body></html>
