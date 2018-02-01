@@ -12,7 +12,12 @@ import org.junit.Test;
 
 import sqelevator.IElevator;
 
-//Elevator Szenario#2 : System with 15 floors and 2 Elevator
+/**
+ * 
+ * @author uebleis Elevator Szenario#2 : System with 15 floors and 2 Elevator
+ *         This test were tested on the interface simulation of elevator-0.1.2
+ *         purpose were some inconsistency during fast setTarget changing
+ */
 public class TestElevatorFloorsControllerTwoElevator {
 
 	private IElevator elevatorSystem;
