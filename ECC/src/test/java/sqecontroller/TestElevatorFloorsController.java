@@ -16,7 +16,7 @@ import sqelevator.IElevator;
  * 
  * @author uebleis Elevator Szenario#1 : System with 10 floors and 1 Elevator
  *         This test were tested on the interface simulation of elevator-0.1.2
- *         purpose were some inconsistency during fast setTarget changing.
+ *         purpose were some inconsistencies during fast setTarget changing.
  */
 public class TestElevatorFloorsController {
 
