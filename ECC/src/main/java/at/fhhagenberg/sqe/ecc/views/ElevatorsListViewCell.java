@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import at.fhhagenberg.sqe.ecc.Main;
-import at.fhhagenberg.sqe.ecc.controllers.ElevatorControlCenterController;
 import at.fhhagenberg.sqe.ecc.controllers.ElevatorController;
 import at.fhhagenberg.sqe.ecc.viewmodels.Elevator;
 import javafx.fxml.FXMLLoader;

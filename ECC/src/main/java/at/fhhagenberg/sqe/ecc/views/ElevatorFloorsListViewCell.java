@@ -10,7 +10,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import sqelevator.ElevatorSystemMock;
 import sqelevator.IElevator;
 
 public class ElevatorFloorsListViewCell extends ListCell<Floor> {
